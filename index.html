@@ -66,6 +66,8 @@ td{font-size:19px}
 .point-list{display:grid;gap:10px;margin-top:12px}
 .point{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fafcff}
 .point strong{display:block}
+.route-plan{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.hotel-map-icon{background:transparent;border:none}
 .action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 16px;border-radius:12px;text-decoration:none;font-weight:800;border:1px solid #aac2e4;background:var(--blue-soft);color:#174a89}
 .empty{color:var(--muted);background:#f8fafc;border:1px dashed #b8c4d4;border-radius:14px;padding:12px 14px}
@@ -94,17 +96,24 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
   <p>大连 → 沈阳 → 长春 → 长白山 → 延吉 → 珲春 → 哈尔滨</p>
   <div class="badges">
     <span class="badge">12/8–12/12：5人同行</span>
-    <span class="badge">12/12之后：人数待确认</span>
+    <span class="badge">12/12之后：4人</span>
     <span class="badge">宁波进 · 哈尔滨出</span>
   </div>
 </header>
+
+<section class="section">
+  <h2 class="section-title">🗺️ 总路线地图</h2>
+  <p class="section-sub">真实地图底图；连线只表示城市顺序，不代表实际铁路或驾车线路。</p>
+  <div id="routeMap" class="map"></div>
+  <div id="routeMapFallback" class="map-fallback">地图暂时没有加载成功。可稍后刷新页面重试。</div>
+</section>
 
 <section class="section">
   <h2 class="section-title">旅行总览</h2>
   <div class="grid-3">
     <div class="card quick-stat"><div class="label">出发</div><div class="value">12月8日 · 宁波</div></div>
     <div class="card quick-stat"><div class="label">返程</div><div class="value">12月22日 · 哈尔滨</div></div>
-    <div class="card quick-stat"><div class="label">同行人数</div><div class="value">前半段 5 人</div></div>
+    <div class="card quick-stat"><div class="label">同行人数</div><div class="value">12/8–12/12：5人<br>12/12之后：4人</div></div>
   </div>
   <div class="card" style="margin-top:16px">
     <div class="route-strip">
@@ -177,7 +186,7 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
     </div>
     <div class="card">
       <h3 style="font-size:28px;margin-top:0">🏨 沈阳 · 12/10–12/12</h3>
-      <div class="hotel-group"><div class="people-box"><span class="n">4人</span></div><div><div class="hotel-name">沈阳迎宾馆</div><div class="note">⚠️ 房费尚未支付，目前只付了押金；兑换券尚未兑换。</div></div></div>
+      <div class="hotel-group"><div class="people-box"><span class="n">4人</span></div><div><div class="hotel-name">沈阳迎宾馆</div></div></div>
       <div class="hotel-group" style="margin-top:14px"><div class="people-box"><span class="n">1人</span></div><div><div class="hotel-name">如家酒店（沈阳市府大路西塔北市场店）</div></div></div>
     </div>
   </div>
@@ -206,30 +215,17 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
 </section>
 
 <section class="section">
-  <h2 class="section-title">🗺️ 总路线地图</h2>
-  <p class="section-sub">真实地图底图；连线只表示城市顺序，不代表实际铁路或驾车线路。</p>
-  <div id="routeMap" class="map"></div>
-  <div id="routeMapFallback" class="map-fallback">地图暂时没有加载成功。可稍后刷新页面重试。</div>
-</section>
-
-<section class="section">
-  <h2 class="section-title">各城市地图与点位</h2>
-  <p class="section-sub">目前只保留已确认住宿；景点、餐厅、车站等由你后续手动添加。</p>
+  <h2 class="section-title">各城市地图、点位与安排</h2>
+  <p class="section-sub">已确认酒店会直接标在真实地图上；每个城市下方预留“浏览线路与安排”，由你之后添加。</p>
   <div class="city-grid" id="cityGrid"></div>
 </section>
 
 <section class="section">
   <h2 class="section-title">⚠️ 待确认事项</h2>
-  <div class="card">
-    <div class="pending"><strong>沈阳迎宾馆：</strong>房费尚未支付，目前只付了押金；兑换券尚未兑换。</div>
-  </div>
-</section>
-
-<section class="section">
-  <h2 class="section-title">领队专区</h2>
-  <p class="section-sub">仅供领队 / 年轻人查看。内容由你后续手动补充。</p>
+  <p class="section-sub">领队 / 年轻人需要处理的信息统一放在这里。</p>
   <div class="card leader">
-    <div class="leader-grid">
+    <div class="note" style="margin-top:0"><strong>沈阳迎宾馆：</strong>房费尚未支付，目前只付了押金；兑换券尚未兑换。</div>
+    <div class="leader-grid" style="margin-top:14px">
       <div class="leader-item"><strong>交通细节</strong><span class="empty">待添加</span></div>
       <div class="leader-item"><strong>酒店 / 入住事项</strong><span class="empty">待添加</span></div>
       <div class="leader-item"><strong>付款 / 兑换 / 订单事项</strong><span class="empty">待添加</span></div>
@@ -257,21 +253,31 @@ const cities=[
 ];
 const hotelData={
  dalian:[
-   {name:"星海广场百年城雕海景亚朵见野酒店",people:"4人"},
-   {name:"如家精选酒店（大连星海广场会展中心店）",people:"1人"}
+   {name:"星海广场百年城雕海景亚朵见野酒店",people:"4人",lat:38.8754,lng:121.5917},
+   {name:"如家精选酒店（大连星海广场会展中心店）",people:"1人",lat:38.882038,lng:121.591793}
  ],
  shenyang:[
-   {name:"沈阳迎宾馆",people:"4人"},
-   {name:"如家酒店（沈阳市府大路西塔北市场店）",people:"1人"}
+   {name:"沈阳迎宾馆",people:"4人",lat:41.802304,lng:123.427713},
+   {name:"如家酒店（沈阳市府大路西塔北市场店）",people:"1人",lat:41.803720,lng:123.420829}
  ]
 };
 function amapSearch(name){return "https://uri.amap.com/search?keyword="+encodeURIComponent(name)+"&callnative=1"}
+const hotelIcon = window.L ? L.divIcon({
+ className:"hotel-map-icon",
+ html:'<div style="font-size:28px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))">🏨</div>',
+ iconSize:[32,32],
+ iconAnchor:[16,28],
+ popupAnchor:[0,-26]
+}) : null;
 function makeMap(id,center,zoom,markers=[]){
  try{
    if(!window.L) throw new Error("Leaflet unavailable");
    const map=L.map(id,{scrollWheelZoom:true}).setView(center,zoom);
    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"&copy; OpenStreetMap contributors"}).addTo(map);
-   markers.forEach(m=>L.marker([m.lat,m.lng]).addTo(map).bindPopup("<b>"+m.name+"</b>"+(m.note?"<br>"+m.note:"")));
+   markers.forEach(m=>{
+     const opts=m.type==="hotel"&&hotelIcon?{icon:hotelIcon}:{};
+     L.marker([m.lat,m.lng],opts).addTo(map).bindPopup("<b>"+m.name+"</b>"+(m.note?"<br>"+m.note:""));
+   });
    return map;
  }catch(e){return null}
 }
@@ -287,11 +293,18 @@ const cityGrid=document.getElementById("cityGrid");
 cities.forEach(c=>{
  const block=document.createElement("section");
  block.className="city-block";
- block.innerHTML='<h3>📍 '+c.name+'</h3><div class="day-meta">'+c.dates+'</div><div id="map-'+c.slug+'" class="map small" style="margin-top:12px"></div><div class="point-list" id="points-'+c.slug+'"></div>';
+ block.innerHTML='<h3>📍 '+c.name+'</h3><div class="day-meta">'+c.dates+'</div><div id="map-'+c.slug+'" class="map small" style="margin-top:12px"></div><div class="point-list" id="points-'+c.slug+'"></div><div class="route-plan"><strong>浏览线路与安排</strong><div class="empty" style="margin-top:8px">待添加</div></div>';
  cityGrid.appendChild(block);
- const cm=makeMap("map-"+c.slug,[c.lat,c.lng],11,[{lat:c.lat,lng:c.lng,name:c.name,note:c.dates}]);
- const list=block.querySelector("#points-"+c.slug);
  const hotels=hotelData[c.slug]||[];
+ const markers=[{lat:c.lat,lng:c.lng,name:c.name,note:c.dates}].concat(
+   hotels.map(h=>({lat:h.lat,lng:h.lng,name:h.name,note:h.people,type:"hotel"}))
+ );
+ const cm=makeMap("map-"+c.slug,[c.lat,c.lng],11,markers);
+ if(cm && hotels.length){
+   const bounds=[[c.lat,c.lng],...hotels.map(h=>[h.lat,h.lng])];
+   cm.fitBounds(bounds,{padding:[35,35],maxZoom:13});
+ }
+ const list=block.querySelector("#points-"+c.slug);
  if(hotels.length){
    hotels.forEach(h=>{
      const p=document.createElement("div");p.className="point";
@@ -305,7 +318,6 @@ cities.forEach(c=>{
    const m=block.querySelector(".map");m.style.display="none";
    const e=document.createElement("div");e.className="map-fallback";e.style.display="block";e.textContent="地图暂时没有加载成功。";block.insertBefore(e,list);
  }
-});
-</script>
+});</script>
 </body>
 </html>
