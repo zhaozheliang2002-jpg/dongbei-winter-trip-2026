@@ -234,6 +234,70 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
+/* =========================
+   适老化样式（自动注入）
+========================= */
+const extraStyle = document.createElement("style");
+extraStyle.textContent = `
+  .city-grid{grid-template-columns:1fr !important;gap:22px}
+  .city-block{padding:24px 24px 26px}
+  .point-list{display:grid;gap:16px;margin-top:16px}
+  .point{border:1px solid var(--line);border-radius:18px;background:#fff;padding:16px 18px}
+  .point strong{display:block;font-size:22px;line-height:1.45}
+  .point .point-type{
+    display:inline-block;
+    margin-top:8px;
+    padding:6px 10px;
+    border-radius:999px;
+    background:#eef3fb;
+    color:#244d83;
+    font-size:16px;
+    font-weight:700;
+  }
+  .point.with-photo{padding:0;overflow:hidden}
+  .point-photo{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+    display:block;
+    background:#eef2f7;
+  }
+  .point-body{padding:18px 18px 20px}
+  .point-desc{
+    margin-top:10px;
+    font-size:18px;
+    line-height:1.8;
+    color:#24344d;
+  }
+  .point-note{
+    margin-top:10px;
+    font-size:16px;
+    color:#5e6d84;
+  }
+  .route-entries{display:grid;gap:14px;margin-top:12px}
+  .route-entry{
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:16px 18px;
+    background:#f8fafc;
+  }
+  .route-entry-title{
+    font-size:21px;
+    font-weight:900;
+    margin-bottom:8px;
+    color:#173b6f;
+  }
+  .route-entry-text{
+    font-size:18px;
+    line-height:1.8;
+  }
+  .custom-map-icon{background:transparent;border:none}
+`;
+document.head.appendChild(extraStyle);
+
+/* =========================
+   基础数据
+========================= */
 const cities = [
   {name:"大连", lat:38.9140, lng:121.6147, dates:"12/8–12/10", slug:"dalian"},
   {name:"沈阳", lat:41.8057, lng:123.4315, dates:"12/10–12/12", slug:"shenyang"},
@@ -244,6 +308,12 @@ const cities = [
   {name:"哈尔滨", lat:45.8038, lng:126.5349, dates:"12/19–12/22", slug:"harbin"}
 ];
 
+/* 
+  说明：
+  - type 只保留四类：airport / hotel / attraction / restaurant
+  - image 目前尽量使用可公开访问图片；
+  - 少数冷门点位如果没有稳定公开图，就先用区域代表图，后面你若有更想用的图，我再帮你替换。
+*/
 const cityPointData = {
   dalian: [
     {
@@ -270,13 +340,16 @@ const cityPointData = {
       lat:38.881285,
       lng:121.586855
     },
+
     {
       id:"dalnihall",
       name:"达里尼市政厅旧址",
       type:"attraction",
       label:"景点",
       lat:38.930050,
-      lng:121.628700
+      lng:121.628700,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Former_Dalian_City_Hall.JPG",
+      desc:"这里是老大连近代城市历史的重要遗存之一，能看出俄日时期留下的建筑风貌。很适合用来作为了解老城历史的第一站，外立面和细部都值得慢慢看。"
     },
     {
       id:"rail1896",
@@ -284,7 +357,10 @@ const cityPointData = {
       type:"attraction",
       label:"景点",
       lat:38.925151,
-      lng:121.631812
+      lng:121.631812,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Zhongshan%20Dalian%20Banner.jpg",
+      desc:"这里最有意思的是成片红砖老楼和院落氛围，整体很有年代感，也很好拍照。即使不住店，来这里走一走，也能感受大连早期铁路与城市发展的历史气息。",
+      note:"当前配图先用周边区域代表图，后面若你有更想用的酒店实景图，我可以再替换。"
     },
     {
       id:"artmuseum",
@@ -292,7 +368,30 @@ const cityPointData = {
       type:"attraction",
       label:"景点",
       lat:38.926520,
-      lng:121.632585
+      lng:121.632585,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Zhongshan%20Dalian%20Banner.jpg",
+      desc:"这栋建筑本身就很上镜，属于“到了门口就值得拍照”的地方。若当天节奏合适，也可以顺便进馆看展，安排起来不会太累。",
+      note:"当前配图先用周边区域代表图，后面若你有更想用的美术馆实景图，我可以再替换。"
+    },
+    {
+      id:"shengliqiao",
+      name:"胜利桥（有轨电车站）",
+      type:"attraction",
+      label:"景点",
+      lat:38.924400,
+      lng:121.636400,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Dalian%20Tram%20202%20FG4.jpg",
+      desc:"这是看大连有轨电车很有代表性的点位之一，老电车和周边街景都很有老城味道。傍晚来这里走一走，城市气质会特别鲜明。"
+    },
+    {
+      id:"donggang",
+      name:"东港音乐喷泉",
+      type:"attraction",
+      label:"景点",
+      lat:38.927500,
+      lng:121.680500,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Donggang%20Dalian.jpg",
+      desc:"东港适合傍晚和晚上来，视野开阔、海边夜景舒服。若碰上喷泉开放时段，灯光与水景会更有氛围，也比较适合饭后散步。"
     },
     {
       id:"zhongshan",
@@ -300,15 +399,9 @@ const cityPointData = {
       type:"attraction",
       label:"景点",
       lat:38.920732,
-      lng:121.638846
-    },
-    {
-      id:"gendarmerie",
-      name:"大连日本宪兵队本部旧址",
-      type:"attraction",
-      label:"景点",
-      lat:38.922100,
-      lng:121.652700
+      lng:121.638846,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Zhongshan%20Square,%20Dalian.jpg",
+      desc:"中山广场是大连最有代表性的近代城市空间之一，圆形广场和周边老建筑群很有辨识度。老人来这里不用赶路，边走边看就很舒服。"
     },
     {
       id:"modernbuildings",
@@ -316,7 +409,31 @@ const cityPointData = {
       type:"attraction",
       label:"景点",
       lat:38.919592,
-      lng:121.639409
+      lng:121.639409,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Zhongshan%20Square,%20Dalian.jpg",
+      desc:"这里聚集了许多银行、旅馆、办公楼等老建筑，是感受大连近代城市风貌最集中的区域之一。建筑不必一次看完，慢慢散步反而更适合。"
+    },
+    {
+      id:"gendarmerie",
+      name:"大连日本宪兵队本部旧址",
+      type:"attraction",
+      label:"景点",
+      lat:38.921500,
+      lng:121.652500,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Zhongshan%20Dalian%20Banner.jpg",
+      desc:"这处旧址的看点主要在于它承载的近代历史记忆，适合在行程中安排成一站“路过停留”。外观看点大于内部，了解背景后看会更有感觉。",
+      note:"当前配图先用周边区域代表图，后面若你有更想用的旧址实景图，我可以再替换。"
+    },
+    {
+      id:"nanshan",
+      name:"南山街",
+      type:"attraction",
+      label:"景点",
+      lat:38.918600,
+      lng:121.648900,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Zhongshan%20Dalian%20Banner.jpg",
+      desc:"南山街适合傍晚慢慢散步，街区安静，老洋房和树木营造出的氛围比较舒服。比起“打卡”，这里更适合放慢节奏地走一走。",
+      note:"当前配图先用周边区域代表图，后面若你有更想用的街区实景图，我可以再替换。"
     }
   ],
 
@@ -345,46 +462,96 @@ const cityPointData = {
 };
 
 const cityRouteData = {
-  dalian: {
-    title:"12/8 浏览线路与安排",
-    text:"机场 → 酒店 → 吃午饭 → 睡午觉 → 达里尼市政厅旧址 → 大连铁道1896花园酒店 → 大连美术馆 → 中山广场 → 大连日本宪兵队本部旧址 → 大连中山广场近代建筑群",
-    pointIds:["airport","atour","dalnihall","rail1896","artmuseum","zhongshan","gendarmerie","modernbuildings"]
-  }
+  dalian: [
+    {
+      title:"12/8 浏览线路与安排",
+      text:"机场 → 酒店 → 吃午饭 → 睡午觉 → 达里尼市政厅旧址 → 大连铁道1896花园酒店 → 大连美术馆 → 胜利桥（有轨电车站） → 晚饭 → 东港音乐喷泉 → 回酒店",
+      pointIds:["airport","atour","dalnihall","rail1896","artmuseum","shengliqiao","donggang"]
+    },
+    {
+      title:"12/9 浏览线路与安排",
+      text:"上午去看海（具体点位待补） → 中午吃饭 → 回酒店休息 → 下午：中山广场 → 大连中山广场近代建筑群 → 大连日本宪兵队本部旧址 → 南山街 → 吃晚饭 → 回去休息",
+      pointIds:["zhongshan","modernbuildings","gendarmerie","nanshan"]
+    }
+  ]
 };
 
+/* =========================
+   页面小调整
+========================= */
+function moveCitySectionUp() {
+  const sections = [...document.querySelectorAll(".section")];
+  const routeSection = sections.find(sec =>
+    sec.querySelector(".section-title")?.textContent.includes("总路线地图")
+  );
+  const citySection = sections.find(sec =>
+    sec.querySelector(".section-title")?.textContent.includes("各城市地图")
+  );
+  if (routeSection && citySection) {
+    routeSection.insertAdjacentElement("afterend", citySection);
+  }
+}
+moveCitySectionUp();
 
-/* ========= 地图图标 ========= */
+const citySection = [...document.querySelectorAll(".section")].find(sec =>
+  sec.querySelector(".section-title")?.textContent.includes("各城市地图")
+);
+if (citySection) {
+  const sub = citySection.querySelector(".section-sub");
+  if (sub) {
+    sub.textContent = "这是本次网站最重要的部分：每个城市都按“真实地图 → 点位 → 浏览线路与安排”来展示，阅读更直观，也更适合老人查看。";
+  }
+}
 
+function updateDayCard(dateText, newMetaHTML) {
+  const dayCards = [...document.querySelectorAll(".timeline .day-card")];
+  const target = dayCards.find(card => card.querySelector(".day-date")?.textContent.trim() === dateText);
+  if (!target) return;
+  const meta = target.querySelector(".day-meta");
+  if (meta) meta.innerHTML = newMetaHTML;
+}
+
+updateDayCard(
+  "12/8",
+  `✈️ 08:10 宁波栎社 T2 起飞 · 东方航空 MU6559<br>
+   10:10 抵达大连周水子国际机场<br>
+   <strong>安排：</strong>机场 → 酒店 → 吃午饭 → 睡午觉 → 达里尼市政厅旧址 → 大连铁道1896花园酒店 → 大连美术馆 → 胜利桥（有轨电车站） → 晚饭 → 东港音乐喷泉 → 回酒店`
+);
+
+updateDayCard(
+  "12/9",
+  `上午去看海（具体点位待补） → 中午吃饭 → 回酒店休息<br>
+   <strong>下午：</strong>中山广场 → 大连中山广场近代建筑群 → 大连日本宪兵队本部旧址 → 南山街<br>
+   <strong>晚上：</strong>吃晚饭 → 回去休息`
+);
+
+/* =========================
+   地图图标
+========================= */
 const mapIcons = {};
 
 if (window.L) {
-  const mk = (symbol) => L.divIcon({
+  const makeIcon = (symbol) => L.divIcon({
     className:"custom-map-icon",
-    html:'<div style="font-size:28px;line-height:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))">'+symbol+'</div>',
+    html:`<div style="font-size:28px;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))">${symbol}</div>`,
     iconSize:[34,34],
     iconAnchor:[17,28],
     popupAnchor:[0,-24]
   });
 
-  mapIcons.airport = mk("✈️");
-  mapIcons.hotel = mk("🏨");
-  mapIcons.attraction = mk("📍");
-  mapIcons.restaurant = mk("🍽️");
+  mapIcons.airport = makeIcon("✈️");
+  mapIcons.hotel = makeIcon("🏨");
+  mapIcons.attraction = makeIcon("📍");
+  mapIcons.restaurant = makeIcon("🍽️");
 }
 
-
-/* ========= 通用地图函数 ========= */
-
+/* =========================
+   地图函数
+========================= */
 function makeMap(id, center, zoom) {
   try {
-    if (!window.L) {
-      throw new Error("Leaflet unavailable");
-    }
-
-    const map = L.map(id, {
-      scrollWheelZoom:true
-    }).setView(center, zoom);
-
+    if (!window.L) throw new Error("Leaflet unavailable");
+    const map = L.map(id, {scrollWheelZoom:true}).setView(center, zoom);
     L.tileLayer(
       "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       {
@@ -392,51 +559,39 @@ function makeMap(id, center, zoom) {
         attribution:"&copy; OpenStreetMap contributors"
       }
     ).addTo(map);
-
     return map;
-
   } catch (e) {
     return null;
   }
 }
 
 function addMarker(map, point) {
-  const icon = mapIcons[point.type];
-
   const marker = L.marker(
     [point.lat, point.lng],
-    icon ? {icon} : {}
+    mapIcons[point.type] ? {icon:mapIcons[point.type]} : {}
   ).addTo(map);
 
   marker.bindPopup(
-    "<div style='font-size:17px;line-height:1.5'>" +
-      "<strong>" + point.name + "</strong><br>" +
-      point.label +
-    "</div>"
+    `<div style="font-size:17px;line-height:1.6">
+      <strong>${point.name}</strong><br>${point.label}
+    </div>`
   );
-
   return marker;
 }
 
-
-/* ========= 东北总路线地图 ========= */
-
-const routeMap = makeMap(
-  "routeMap",
-  [42.5, 126],
-  5
-);
+/* =========================
+   总路线地图
+========================= */
+const routeMap = makeMap("routeMap", [42.5, 126], 5);
 
 if (routeMap) {
-
   cities.forEach(c => {
     L.marker([c.lat, c.lng])
       .addTo(routeMap)
       .bindPopup(
-        "<div style='font-size:17px'>" +
-        "<strong>" + c.name + "</strong><br>" +
-        c.dates +
-        "</div>"
+        `<div style="font-size:17px">
+          <strong>${c.name}</strong><br>${c.dates}
+        </div>`
       );
   });
 
@@ -452,85 +607,115 @@ if (routeMap) {
 
   routeMap.fitBounds(
     cities.map(c => [c.lat, c.lng]),
-    {
-      padding:[30,30]
-    }
+    {padding:[30,30]}
   );
-
 } else {
   document.getElementById("routeMap").style.display = "none";
   document.getElementById("routeMapFallback").style.display = "block";
 }
 
+/* =========================
+   各城市地图、点位与安排
+========================= */
+function renderPointCard(point) {
+  if (point.image || point.desc) {
+    return `
+      <article class="point with-photo">
+        ${point.image ? `<img class="point-photo" src="${point.image}" alt="${point.name}">` : ``}
+        <div class="point-body">
+          <strong>${point.name}</strong>
+          <span class="point-type">${point.label}</span>
+          ${point.desc ? `<div class="point-desc">${point.desc}</div>` : ``}
+          ${point.note ? `<div class="point-note">${point.note}</div>` : ``}
+        </div>
+      </article>
+    `;
+  }
 
-/* ========= 每个城市的地图 ========= */
+  return `
+    <article class="point">
+      <strong>${point.name}</strong>
+      <span class="point-type">${point.label}</span>
+    </article>
+  `;
+}
+
+function renderRouteEntries(entries) {
+  if (!entries || entries.length === 0) {
+    return `
+      <div class="route-entries">
+        <div class="route-entry">
+          <div class="route-entry-title">浏览线路与安排</div>
+          <div class="route-entry-text">待添加</div>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="route-entries">
+      ${entries.map(item => `
+        <div class="route-entry">
+          <div class="route-entry-title">${item.title}</div>
+          <div class="route-entry-text">${item.text}</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
 
 const cityGrid = document.getElementById("cityGrid");
+cityGrid.innerHTML = "";
 
 cities.forEach(city => {
-
   const block = document.createElement("section");
   block.className = "city-block";
 
-  const routeInfo = cityRouteData[city.slug];
+  const points = cityPointData[city.slug] || [];
+  const routeEntries = cityRouteData[city.slug] || [];
 
   block.innerHTML = `
     <h3>📍 ${city.name}</h3>
-
-    <div class="day-meta">
-      ${city.dates}
+    <div class="day-meta">${city.dates}</div>
+    <div id="map-${city.slug}" class="map small" style="margin-top:12px"></div>
+    <div class="point-list" id="points-${city.slug}">
+      ${points.length > 0
+        ? points.map(renderPointCard).join("")
+        : `<div class="empty">住宿 / 景点 / 餐馆：待添加点位</div>`
+      }
     </div>
-
-    <div
-      id="map-${city.slug}"
-      class="map small"
-      style="margin-top:12px"
-    ></div>
-
-    <div
-      class="point-list"
-      id="points-${city.slug}"
-    ></div>
-
     <div class="route-plan">
-      <strong>${routeInfo ? routeInfo.title : "浏览线路与安排"}</strong>
-      <div class="empty" style="margin-top:8px">
-        ${routeInfo ? routeInfo.text : "待添加"}
-      </div>
+      ${renderRouteEntries(routeEntries)}
     </div>
   `;
 
   cityGrid.appendChild(block);
 
-  const cityMap = makeMap(
-    "map-" + city.slug,
-    [city.lat, city.lng],
-    11
-  );
-
-  const points = cityPointData[city.slug] || [];
+  const cityMap = makeMap(`map-${city.slug}`, [city.lat, city.lng], 11);
 
   if (cityMap) {
+    points.forEach(point => addMarker(cityMap, point));
 
-    points.forEach(point => {
-      addMarker(cityMap, point);
-    });
-
-    if (routeInfo) {
+    if (routeEntries.length > 0) {
       const byId = Object.fromEntries(points.map(p => [p.id, p]));
-      const routePoints = routeInfo.pointIds
-        .map(id => byId[id])
-        .filter(Boolean)
-        .map(p => [p.lat, p.lng]);
 
-      if (routePoints.length > 1) {
-        L.polyline(routePoints, {
-          weight:4,
-          opacity:0.72,
-          dashArray:"8 8",
-          color:"#1f5fae"
-        }).addTo(cityMap);
-      }
+      const lineColors = ["#1f5fae", "#c97b20", "#217a53"];
+
+      routeEntries.forEach((entry, idx) => {
+        const routePoints = (entry.pointIds || [])
+          .map(id => byId[id])
+          .filter(Boolean)
+          .map(p => [p.lat, p.lng]);
+
+        if (routePoints.length > 1) {
+          L.polyline(routePoints, {
+            weight:4,
+            opacity:0.78,
+            dashArray: idx === 0 ? "0" : "8 8",
+            color: lineColors[idx % lineColors.length]
+          }).addTo(cityMap);
+        }
+      });
     }
 
     if (points.length > 0) {
@@ -542,28 +727,7 @@ cities.forEach(city => {
         }
       );
     }
-  }
-
-  const list = block.querySelector("#points-" + city.slug);
-
-  if (points.length > 0) {
-    points.forEach(point => {
-      const item = document.createElement("div");
-      item.className = "point";
-      item.innerHTML = `
-        <strong>${point.name}</strong>
-        <span>${point.label}</span>
-      `;
-      list.appendChild(item);
-    });
   } else {
-    const empty = document.createElement("div");
-    empty.className = "empty";
-    empty.textContent = "住宿 / 景点 / 餐馆：待添加点位";
-    list.appendChild(empty);
-  }
-
-  if (!cityMap) {
     const mapDiv = block.querySelector(".map");
     mapDiv.style.display = "none";
 
@@ -571,7 +735,7 @@ cities.forEach(city => {
     fallback.className = "map-fallback";
     fallback.style.display = "block";
     fallback.textContent = "地图暂时没有加载成功。";
-    block.insertBefore(fallback, list);
+    block.insertBefore(fallback, block.querySelector(".point-list"));
   }
-
-});</script>
+});
+</script>
