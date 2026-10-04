@@ -377,7 +377,6 @@ const cityPointData = {
       lat:38.881285,
       lng:121.586855
     },
-
     {
       id:"dalnihall",
       name:"达里尼市政厅旧址",
@@ -467,8 +466,20 @@ const cityPointData = {
       lng:121.648900,
       image:"https://dimg04.c-ctrip.com/images/100m0h0000008pj5c477C_W_640_10000.jpg?proc=autoorient",
       desc:"安静的老街和洋房街区，傍晚散步比较舒服。"
+    }
+  ],
+
+  shenyang: [
+    {
+      id:"shenyang-guesthouse",
+      name:"沈阳迎宾馆",
+      type:"hotel",
+      label:"住宿",
+      lat:41.799871,
+      lng:123.421573
     },
     {
+      id:"shenyang-homeinn",
       name:"如家酒店（沈阳市府大路西塔北市场店）",
       type:"hotel",
       label:"住宿",
@@ -707,7 +718,11 @@ cities.forEach(city => {
   const block = document.createElement("section");
   block.className = "city-block";
 
-  const points = cityPointData[city.slug] || [];
+  const rawPoints = cityPointData[city.slug] || [];
+  const points = rawPoints.filter(point =>
+    Math.abs(point.lat - city.lat) < 1.5 &&
+    Math.abs(point.lng - city.lng) < 1.5
+  );
   const routeEntries = cityRouteData[city.slug] || [];
 
   block.innerHTML = `
