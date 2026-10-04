@@ -270,6 +270,28 @@ extraStyle.textContent = `
   .city-block{padding:26px 26px 30px}
   .city-block h3{font-size:30px}
   .route-plan{margin-top:22px;padding-top:0;border-top:none}
+  .city-overview-intro{
+    margin-top:14px;
+    padding:16px 18px;
+    background:#f7faff;
+    border:1px solid #d7e3f4;
+    border-radius:16px;
+    font-size:19px;
+    line-height:1.8;
+    color:#2d3d55;
+  }
+  .day-map-block{margin-top:26px}
+  .day-map-title{
+    font-size:26px;
+    font-weight:900;
+    margin:0 0 10px;
+    color:#173b6f;
+  }
+  .day-map-note{
+    margin-top:9px;
+    font-size:17px;
+    color:var(--muted);
+  }
   .route-entries{display:grid;gap:24px;margin-top:0}
   .route-entry{
     border:1px solid var(--line);
@@ -295,7 +317,7 @@ extraStyle.textContent = `
   .route-stop-list{display:grid;gap:18px;margin-top:20px}
   .route-stop{
     display:grid;
-    grid-template-columns:40% 60%;
+    grid-template-columns:minmax(280px,40%) 1fr;
     border:1px solid var(--line);
     border-radius:18px;
     overflow:hidden;
@@ -303,7 +325,7 @@ extraStyle.textContent = `
   }
   .route-stop img{
     width:100%;
-    height:100%;
+    height:220px;
     min-height:220px;
     object-fit:cover;
     display:block;
@@ -333,6 +355,7 @@ extraStyle.textContent = `
     .route-entry{padding:16px}
     .route-entry-title{font-size:25px}
     .route-entry-text{font-size:18px}
+    .route-stop{grid-template-columns:1fr}
     .route-stop img{height:220px}
     .route-stop-name{font-size:21px}
     .route-stop-desc{font-size:17px}
@@ -445,7 +468,8 @@ const cityPointData = {
       label:"市场",
       lat:38.903435,
       lng:121.558865,
-      desc:"本地大型熟食和农副产品市场，适合上午逛。"
+      image:"https://aos-comment.amap.com/B019B0BC69/comment/content_media_external_file_128368_1764459778909_79854847.jpg",
+      desc:"和对面的三寰西南路综合批发市场一起逛，顺便安排吃饭。"
     },
     {
       id:"sanhuanmarket",
@@ -550,7 +574,7 @@ const cityRouteData = {
     {
       title:"12/8 浏览线路与安排",
       text:"机场 → 酒店 → 吃午饭 → 睡午觉 → 达里尼市政厅旧址 → 大连铁道1896花园酒店 → 大连美术馆 → 胜利桥（有轨电车站） → 晚饭 → 东港音乐喷泉 → 回酒店",
-      pointIds:["airport","atour","dalnihall","rail1896","artmuseum","shengliqiao","donggang"]
+      pointIds:["airport","atour","dalnihall","rail1896","artmuseum","shengliqiao","donggang","atour"]
     },
     {
       title:"12/9 浏览线路与安排",
@@ -583,7 +607,7 @@ const citySection = [...document.querySelectorAll(".section")].find(sec =>
 if (citySection) {
   const sub = citySection.querySelector(".section-sub");
   if (sub) {
-    sub.textContent = "城市地图采用静态展示，不需要点击或拖动；地图上只保留简洁图标，具体名称与安排放在线路说明中。";
+    sub.textContent = "每个城市先看城市总地图；有多天行程时，再按日期分别展示当天地图和浏览线路。";
   }
 }
 
@@ -704,6 +728,71 @@ if (routeMap) {
 /* =========================
    各城市地图、点位与安排
 ========================= */
+const dalianMarketGroup = {
+  id:"market-group",
+  name:"大连熟食品交易中心 + 三寰西南路综合批发市场",
+  type:"attraction",
+  label:"市场 / 吃饭",
+  image:"https://aos-comment.amap.com/B019B0BC69/comment/content_media_external_file_128368_1764459778909_79854847.jpg",
+  desc:"两个市场隔西南路相邻，这一站一起逛，并安排吃饭。"
+};
+
+function getDisplayStops(item, byId) {
+  const result = [];
+  let marketAdded = false;
+
+  (item.pointIds || []).forEach(id => {
+    if (id === "cookedfood" || id === "sanhuanmarket") {
+      if (!marketAdded) {
+        result.push(dalianMarketGroup);
+        marketAdded = true;
+      }
+      return;
+    }
+
+    const p = byId[id];
+    if (p && p.type === "attraction") result.push(p);
+  });
+
+  return result;
+}
+
+function drawStaticRouteMap(mapId, points, pointIds, color) {
+  const map = makeMap(mapId, [38.9140,121.6147], 12, true);
+  if (!map) return null;
+
+  const byId = Object.fromEntries(points.map(p => [p.id,p]));
+  const routePoints = (pointIds || []).map(id => byId[id]).filter(Boolean);
+
+  const unique = [];
+  const seen = new Set();
+  routePoints.forEach(p => {
+    if (!seen.has(p.id)) {
+      seen.add(p.id);
+      unique.push(p);
+    }
+  });
+
+  unique.forEach(p => addMarker(map,p));
+
+  if (routePoints.length > 1) {
+    L.polyline(routePoints.map(p => [p.lat,p.lng]), {
+      weight:6,
+      opacity:0.92,
+      color
+    }).addTo(map);
+  }
+
+  if (unique.length) {
+    map.fitBounds(unique.map(p => [p.lat,p.lng]), {
+      padding:[38,38],
+      maxZoom:14
+    });
+  }
+
+  return map;
+}
+
 function renderRouteStop(point) {
   if (!point || point.type !== "attraction") return "";
   return `
@@ -735,9 +824,7 @@ function renderRouteEntries(entries, points) {
   return `
     <div class="route-entries">
       ${entries.map(item => {
-        const attractions = (item.pointIds || [])
-          .map(id => byId[id])
-          .filter(p => p && p.type === "attraction");
+        const attractions = getDisplayStops(item, byId);
 
         return `
           <div class="route-entry">
@@ -769,6 +856,83 @@ cities.forEach(city => {
   );
   const routeEntries = cityRouteData[city.slug] || [];
 
+  if (city.slug === "dalian") {
+    const day8 = routeEntries[0];
+    const day9 = routeEntries[1];
+
+    block.innerHTML = `
+      <h3>📍 大连</h3>
+      <div class="day-meta">${city.dates}</div>
+
+      <div id="map-dalian-overview" class="map small" style="margin-top:12px"></div>
+      <div class="map-legend">
+        <span>✈️ 机场</span>
+        <span>🏨 住宿</span>
+        <span>📍 景点 / 市场</span>
+        <span style="color:#1f5fae">━ 12/8</span>
+        <span style="color:#d91e36">━ 12/9</span>
+      </div>
+      <div class="city-overview-intro">
+        大连停留两晚。12/8主要走老城历史建筑一线，晚上到东港；12/9先看海、逛西南路市场，午休后走中山广场—南山街一线，晚上到星海广场。
+      </div>
+
+      <div class="day-map-block">
+        <div class="day-map-title">12/8 地图</div>
+        <div id="map-dalian-1208" class="map small"></div>
+        <div class="day-map-note" style="color:#1f5fae;font-weight:800">蓝线：12/8 当天线路</div>
+      </div>
+
+      <div class="route-plan">
+        ${renderRouteEntries([day8], points)}
+      </div>
+
+      <div class="day-map-block">
+        <div class="day-map-title">12/9 地图</div>
+        <div id="map-dalian-1209" class="map small"></div>
+        <div class="day-map-note" style="color:#d91e36;font-weight:800">红线：12/9 当天线路</div>
+      </div>
+
+      <div class="route-plan">
+        ${renderRouteEntries([day9], points)}
+      </div>
+    `;
+
+    cityGrid.appendChild(block);
+
+    // Overall map: all Dalian points + both day routes.
+    const overviewMap = makeMap("map-dalian-overview", [city.lat,city.lng], 11, true);
+    if (overviewMap) {
+      points.forEach(p => addMarker(overviewMap,p));
+      const byId = Object.fromEntries(points.map(p => [p.id,p]));
+
+      [
+        {entry:day8,color:"#1f5fae",weight:5,dashArray:"0"},
+        {entry:day9,color:"#d91e36",weight:7,dashArray:"12 8"}
+      ].forEach(({entry,color,weight,dashArray}) => {
+        const routePoints = (entry.pointIds || []).map(id => byId[id]).filter(Boolean);
+        if (routePoints.length > 1) {
+          L.polyline(routePoints.map(p => [p.lat,p.lng]), {
+            weight,
+            opacity:.92,
+            dashArray,
+            color
+          }).addTo(overviewMap);
+        }
+      });
+
+      if (points.length) {
+        overviewMap.fitBounds(points.map(p => [p.lat,p.lng]), {
+          padding:[38,38],
+          maxZoom:13
+        });
+      }
+    }
+
+    drawStaticRouteMap("map-dalian-1208", points, day8.pointIds, "#1f5fae");
+    drawStaticRouteMap("map-dalian-1209", points, day9.pointIds, "#d91e36");
+    return;
+  }
+
   block.innerHTML = `
     <h3>📍 ${city.name}</h3>
     <div class="day-meta">${city.dates}</div>
@@ -778,7 +942,6 @@ cities.forEach(city => {
       <span>🏨 住宿</span>
       <span>📍 景点</span>
       <span>🍽️ 餐馆</span>
-      ${city.slug === "dalian" ? '<span style="color:#1f5fae">━ 12/8</span><span style="color:#d91e36">━ 12/9</span>' : ""}
     </div>
     <div class="route-plan">
       ${renderRouteEntries(routeEntries, points)}
@@ -787,51 +950,17 @@ cities.forEach(city => {
 
   cityGrid.appendChild(block);
 
-  const cityMap = makeMap(`map-${city.slug}`, [city.lat, city.lng], 11, true);
+  const cityMap = makeMap(`map-${city.slug}`, [city.lat,city.lng], 11, true);
 
   if (cityMap) {
-    points.forEach(point => addMarker(cityMap, point));
+    points.forEach(point => addMarker(cityMap,point));
 
-    if (routeEntries.length > 0) {
-      const byId = Object.fromEntries(points.map(p => [p.id, p]));
-
-      const lineColors = ["#1f5fae", "#d91e36", "#217a53"];
-
-      routeEntries.forEach((entry, idx) => {
-        const routePoints = (entry.pointIds || [])
-          .map(id => byId[id])
-          .filter(Boolean)
-          .map(p => [p.lat, p.lng]);
-
-        if (routePoints.length > 1) {
-          L.polyline(routePoints, {
-            weight: idx === 1 ? 7 : 4,
-            opacity: idx === 1 ? 0.95 : 0.78,
-            dashArray: idx === 0 ? "0" : "12 8",
-            color: lineColors[idx % lineColors.length]
-          }).addTo(cityMap);
-        }
+    if (points.length) {
+      cityMap.fitBounds(points.map(p => [p.lat,p.lng]), {
+        padding:[35,35],
+        maxZoom:13
       });
     }
-
-    if (points.length > 0) {
-      cityMap.fitBounds(
-        points.map(p => [p.lat, p.lng]),
-        {
-          padding:[35,35],
-          maxZoom:13
-        }
-      );
-    }
-  } else {
-    const mapDiv = block.querySelector(".map");
-    mapDiv.style.display = "none";
-
-    const fallback = document.createElement("div");
-    fallback.className = "map-fallback";
-    fallback.style.display = "block";
-    fallback.textContent = "地图暂时没有加载成功。";
-    block.insertBefore(fallback, block.querySelector(".route-plan"));
   }
 });
 </script>
