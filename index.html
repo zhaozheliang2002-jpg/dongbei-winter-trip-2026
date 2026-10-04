@@ -234,82 +234,402 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
-const cities=[
- {name:"大连",lat:38.9140,lng:121.6147,dates:"12/8–12/10",slug:"dalian"},
- {name:"沈阳",lat:41.8057,lng:123.4315,dates:"12/10–12/12",slug:"shenyang"},
- {name:"长春",lat:43.8171,lng:125.3235,dates:"12/12–12/13",slug:"changchun"},
- {name:"长白山",lat:42.0062,lng:128.0553,dates:"12/13–12/16",slug:"changbaishan"},
- {name:"延吉",lat:42.8913,lng:129.5089,dates:"12/16–12/17",slug:"yanji"},
- {name:"珲春",lat:42.8624,lng:130.3658,dates:"12/17–12/19",slug:"hunchun"},
- {name:"哈尔滨",lat:45.8038,lng:126.5349,dates:"12/19–12/22",slug:"harbin"}
+const cities = [
+  {name:"大连", lat:38.9140, lng:121.6147, dates:"12/8–12/10", slug:"dalian"},
+  {name:"沈阳", lat:41.8057, lng:123.4315, dates:"12/10–12/12", slug:"shenyang"},
+  {name:"长春", lat:43.8171, lng:125.3235, dates:"12/12–12/13", slug:"changchun"},
+  {name:"长白山", lat:42.0062, lng:128.0553, dates:"12/13–12/16", slug:"changbaishan"},
+  {name:"延吉", lat:42.8913, lng:129.5089, dates:"12/16–12/17", slug:"yanji"},
+  {name:"珲春", lat:42.8624, lng:130.3658, dates:"12/17–12/19", slug:"hunchun"},
+  {name:"哈尔滨", lat:45.8038, lng:126.5349, dates:"12/19–12/22", slug:"harbin"}
 ];
-const hotelData={
- dalian:[
-   {name:"星海广场百年城雕海景亚朵见野酒店",people:"4人",lat:38.8754,lng:121.5917},
-   {name:"如家精选酒店（大连星海广场会展中心店）",people:"1人",lat:38.882038,lng:121.591793}
- ],
- shenyang:[
-   {name:"沈阳迎宾馆",people:"4人",lat:41.802304,lng:123.427713},
-   {name:"如家酒店（沈阳市府大路西塔北市场店）",people:"1人",lat:41.803720,lng:123.420829}
- ]
+
+const cityPointData = {
+  dalian: [
+    {
+      name:"大连周水子国际机场",
+      type:"airport",
+      label:"✈️ 机场",
+      lat:38.964154,
+      lng:121.542585
+    },
+    {
+      name:"达里尼市政厅旧址",
+      type:"historic",
+      label:"🏛️ 历史旧址",
+      lat:38.9339,
+      lng:121.6254
+    },
+    {
+      name:"大连星海广场百年城雕海景亚朵见野酒店",
+      type:"hotel",
+      label:"🏨 酒店",
+      lat:38.8754,
+      lng:121.5917
+    },
+    {
+      name:"大连铁道1896花园酒店",
+      type:"hotel",
+      label:"🏨 酒店",
+      lat:38.92516,
+      lng:121.63179
+    },
+    {
+      name:"大连美术馆",
+      type:"museum",
+      label:"🖼️ 美术馆",
+      lat:38.927331,
+      lng:121.637556
+    },
+    {
+      name:"中山广场",
+      type:"square",
+      label:"📍 广场",
+      lat:38.921549,
+      lng:121.643827
+    },
+    {
+      name:"大连日本宪兵队本部旧址",
+      type:"historic",
+      label:"🏛️ 历史旧址",
+      lat:38.9229,
+      lng:121.6577
+    },
+    {
+      name:"大连中山广场近代建筑群",
+      type:"historic",
+      label:"🏛️ 建筑群",
+      lat:38.920409,
+      lng:121.644391
+    },
+
+    /* 原来已经确认的另一家住宿继续保留 */
+    {
+      name:"如家精选酒店（大连星海广场会展中心店）",
+      type:"hotel",
+      label:"🏨 酒店",
+      lat:38.882038,
+      lng:121.591793
+    }
+  ],
+
+  shenyang: [
+    {
+      name:"沈阳迎宾馆",
+      type:"hotel",
+      label:"🏨 酒店",
+      lat:41.802304,
+      lng:123.427713
+    },
+    {
+      name:"如家酒店（沈阳市府大路西塔北市场店）",
+      type:"hotel",
+      label:"🏨 酒店",
+      lat:41.803720,
+      lng:123.420829
+    }
+  ],
+
+  changchun: [],
+  changbaishan: [],
+  yanji: [],
+  hunchun: [],
+  harbin: []
 };
-function amapSearch(name){return "https://uri.amap.com/search?keyword="+encodeURIComponent(name)+"&callnative=1"}
-const hotelIcon = window.L ? L.divIcon({
- className:"hotel-map-icon",
- html:'<div style="font-size:28px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))">🏨</div>',
- iconSize:[32,32],
- iconAnchor:[16,28],
- popupAnchor:[0,-26]
-}) : null;
-function makeMap(id,center,zoom,markers=[]){
- try{
-   if(!window.L) throw new Error("Leaflet unavailable");
-   const map=L.map(id,{scrollWheelZoom:true}).setView(center,zoom);
-   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"&copy; OpenStreetMap contributors"}).addTo(map);
-   markers.forEach(m=>{
-     const opts=m.type==="hotel"&&hotelIcon?{icon:hotelIcon}:{};
-     L.marker([m.lat,m.lng],opts).addTo(map).bindPopup("<b>"+m.name+"</b>"+(m.note?"<br>"+m.note:""));
-   });
-   return map;
- }catch(e){return null}
+
+
+/* ========= 地图图标 ========= */
+
+const mapIcons = {};
+
+if (window.L) {
+  mapIcons.hotel = L.divIcon({
+    className:"custom-map-icon",
+    html:'<div style="font-size:28px">🏨</div>',
+    iconSize:[34,34],
+    iconAnchor:[17,28],
+    popupAnchor:[0,-24]
+  });
+
+  mapIcons.airport = L.divIcon({
+    className:"custom-map-icon",
+    html:'<div style="font-size:28px">✈️</div>',
+    iconSize:[34,34],
+    iconAnchor:[17,28],
+    popupAnchor:[0,-24]
+  });
+
+  mapIcons.historic = L.divIcon({
+    className:"custom-map-icon",
+    html:'<div style="font-size:28px">🏛️</div>',
+    iconSize:[34,34],
+    iconAnchor:[17,28],
+    popupAnchor:[0,-24]
+  });
+
+  mapIcons.museum = L.divIcon({
+    className:"custom-map-icon",
+    html:'<div style="font-size:28px">🖼️</div>',
+    iconSize:[34,34],
+    iconAnchor:[17,28],
+    popupAnchor:[0,-24]
+  });
+
+  mapIcons.square = L.divIcon({
+    className:"custom-map-icon",
+    html:'<div style="font-size:28px">📍</div>',
+    iconSize:[34,34],
+    iconAnchor:[17,28],
+    popupAnchor:[0,-24]
+  });
 }
-const routeMap=makeMap("routeMap",[42.5,126],5,cities.map(c=>({lat:c.lat,lng:c.lng,name:c.name,note:c.dates})));
-if(routeMap){
- L.polyline(cities.map(c=>[c.lat,c.lng]),{weight:4,opacity:.72,dashArray:"10 8",color:"#1f5fae"}).addTo(routeMap);
- routeMap.fitBounds(cities.map(c=>[c.lat,c.lng]),{padding:[30,30]});
-}else{
- document.getElementById("routeMap").style.display="none";
- document.getElementById("routeMapFallback").style.display="block";
+
+
+/* ========= 通用地图函数 ========= */
+
+function makeMap(id, center, zoom) {
+  try {
+    if (!window.L) {
+      throw new Error("Leaflet unavailable");
+    }
+
+    const map = L.map(id, {
+      scrollWheelZoom:true
+    }).setView(center, zoom);
+
+    L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        maxZoom:18,
+        attribution:"&copy; OpenStreetMap contributors"
+      }
+    ).addTo(map);
+
+    return map;
+
+  } catch (e) {
+    return null;
+  }
 }
-const cityGrid=document.getElementById("cityGrid");
-cities.forEach(c=>{
- const block=document.createElement("section");
- block.className="city-block";
- block.innerHTML='<h3>📍 '+c.name+'</h3><div class="day-meta">'+c.dates+'</div><div id="map-'+c.slug+'" class="map small" style="margin-top:12px"></div><div class="point-list" id="points-'+c.slug+'"></div><div class="route-plan"><strong>浏览线路与安排</strong><div class="empty" style="margin-top:8px">待添加</div></div>';
- cityGrid.appendChild(block);
- const hotels=hotelData[c.slug]||[];
- const markers=[{lat:c.lat,lng:c.lng,name:c.name,note:c.dates}].concat(
-   hotels.map(h=>({lat:h.lat,lng:h.lng,name:h.name,note:h.people,type:"hotel"}))
- );
- const cm=makeMap("map-"+c.slug,[c.lat,c.lng],11,markers);
- if(cm && hotels.length){
-   const bounds=[[c.lat,c.lng],...hotels.map(h=>[h.lat,h.lng])];
-   cm.fitBounds(bounds,{padding:[35,35],maxZoom:13});
- }
- const list=block.querySelector("#points-"+c.slug);
- if(hotels.length){
-   hotels.forEach(h=>{
-     const p=document.createElement("div");p.className="point";
-     p.innerHTML="<strong>🏨 "+h.name+"</strong><span>"+h.people+"</span><div class='action-row'><a class='btn' target='_blank' rel='noopener' href='"+amapSearch(h.name)+"'>高德打开</a></div>";
-     list.appendChild(p);
-   });
- }else{
-   const e=document.createElement("div");e.className="empty";e.textContent="酒店 / 车站 / 景点 / 餐厅：待添加点位";list.appendChild(e);
- }
- if(!cm){
-   const m=block.querySelector(".map");m.style.display="none";
-   const e=document.createElement("div");e.className="map-fallback";e.style.display="block";e.textContent="地图暂时没有加载成功。";block.insertBefore(e,list);
- }
-});</script>
-</body>
-</html>
+
+function addMarker(map, point) {
+  const icon = mapIcons[point.type];
+
+  const marker = L.marker(
+    [point.lat, point.lng],
+    icon ? {icon} : {}
+  ).addTo(map);
+
+  marker.bindPopup(
+    "<div style='font-size:17px;line-height:1.5'>" +
+      "<strong>" + point.name + "</strong><br>" +
+      point.label +
+    "</div>"
+  );
+
+  return marker;
+}
+
+
+/* ========= 东北总路线地图 ========= */
+
+const routeMap = makeMap(
+  "routeMap",
+  [42.5, 126],
+  5
+);
+
+if (routeMap) {
+
+  cities.forEach(c => {
+    L.marker([c.lat, c.lng])
+      .addTo(routeMap)
+      .bindPopup(
+        "<div style='font-size:17px'>" +
+        "<strong>" + c.name + "</strong><br>" +
+        c.dates +
+        "</div>"
+      );
+  });
+
+  L.polyline(
+    cities.map(c => [c.lat, c.lng]),
+    {
+      weight:4,
+      opacity:0.75,
+      dashArray:"10 8",
+      color:"#1f5fae"
+    }
+  ).addTo(routeMap);
+
+  routeMap.fitBounds(
+    cities.map(c => [c.lat, c.lng]),
+    {
+      padding:[30,30]
+    }
+  );
+
+} else {
+  document.getElementById("routeMap").style.display = "none";
+  document.getElementById("routeMapFallback").style.display = "block";
+}
+
+
+/* ========= 每个城市的地图 ========= */
+
+const cityGrid = document.getElementById("cityGrid");
+
+cities.forEach(city => {
+
+  const block = document.createElement("section");
+  block.className = "city-block";
+
+  block.innerHTML = `
+    <h3>📍 ${city.name}</h3>
+
+    <div class="day-meta">
+      ${city.dates}
+    </div>
+
+    <div
+      id="map-${city.slug}"
+      class="map small"
+      style="margin-top:12px"
+    ></div>
+
+    <div
+      class="point-list"
+      id="points-${city.slug}"
+    ></div>
+
+    <div class="route-plan">
+      <strong>浏览线路与安排</strong>
+
+      <div
+        class="empty"
+        style="margin-top:8px"
+      >
+        待添加
+      </div>
+    </div>
+  `;
+
+  cityGrid.appendChild(block);
+
+
+  /* ---------- 建立城市地图 ---------- */
+
+  const cityMap = makeMap(
+    "map-" + city.slug,
+    [city.lat, city.lng],
+    11
+  );
+
+  const points = cityPointData[city.slug] || [];
+
+
+  if (cityMap) {
+
+    /* 城市中心点 */
+    L.circleMarker(
+      [city.lat, city.lng],
+      {
+        radius:6,
+        weight:2,
+        fillOpacity:0.7
+      }
+    )
+    .addTo(cityMap)
+    .bindPopup(
+      "<strong>" +
+      city.name +
+      "</strong><br>" +
+      city.dates
+    );
+
+
+    /* 所有具体点位 */
+    points.forEach(point => {
+      addMarker(cityMap, point);
+    });
+
+
+    /* 自动调整地图，让所有点都能看到 */
+    if (points.length > 0) {
+
+      const allCoordinates = [
+        [city.lat, city.lng],
+        ...points.map(p => [p.lat, p.lng])
+      ];
+
+      cityMap.fitBounds(
+        allCoordinates,
+        {
+          padding:[35,35],
+          maxZoom:13
+        }
+      );
+    }
+  }
+
+
+  /* ---------- 点位文字列表 ---------- */
+
+  const list = block.querySelector(
+    "#points-" + city.slug
+  );
+
+  if (points.length > 0) {
+
+    points.forEach(point => {
+
+      const item = document.createElement("div");
+
+      item.className = "point";
+
+      item.innerHTML = `
+        <strong>${point.name}</strong>
+        <span>${point.label}</span>
+      `;
+
+      list.appendChild(item);
+    });
+
+  } else {
+
+    const empty = document.createElement("div");
+
+    empty.className = "empty";
+
+    empty.textContent =
+      "酒店 / 车站 / 景点 / 餐厅：待添加点位";
+
+    list.appendChild(empty);
+  }
+
+
+  /* ---------- 地图加载失败 ---------- */
+
+  if (!cityMap) {
+
+    const mapDiv = block.querySelector(".map");
+
+    mapDiv.style.display = "none";
+
+    const fallback =
+      document.createElement("div");
+
+    fallback.className = "map-fallback";
+    fallback.style.display = "block";
+
+    fallback.textContent =
+      "地图暂时没有加载成功。";
+
+    block.insertBefore(
+      fallback,
+      list
+    );
+  }
+
+});
+</script>
