@@ -452,8 +452,8 @@ const cityPointData = {
       name:"三寰西南路综合批发市场",
       type:"attraction",
       label:"市场",
-      lat:38.903100,
-      lng:121.557300,
+      lat:38.903140,
+      lng:121.557520,
       desc:"和熟食品交易中心在同一片西南路市场区域，可顺路一起逛。"
     },
     {
@@ -461,8 +461,8 @@ const cityPointData = {
       name:"莲花山看海",
       type:"attraction",
       label:"景点",
-      lat:38.885919,
-      lng:121.621665,
+      lat:38.878852,
+      lng:121.603791,
       image:"https://dimg04.c-ctrip.com/images/1me3r12000r2lpeou1BD4.jpg?proc=source%2Ftripcommunity",
       desc:"登高看星海湾、跨海大桥和海岸线，视野开阔。"
     },
@@ -501,8 +501,8 @@ const cityPointData = {
       name:"大连日本宪兵队本部旧址",
       type:"attraction",
       label:"景点",
-      lat:38.921500,
-      lng:121.652500,
+      lat:38.918983,
+      lng:121.647298,
       image:"https://livedoor.blogimg.jp/kuroneko_studio/imgs/3/b/3b87d128.jpg",
       desc:"以历史背景为主，适合短暂停留、看外观。"
     },
@@ -511,8 +511,8 @@ const cityPointData = {
       name:"南山街",
       type:"attraction",
       label:"景点",
-      lat:38.918600,
-      lng:121.648900,
+      lat:38.913777,
+      lng:121.645071,
       image:"https://dimg04.c-ctrip.com/images/100m0h0000008pj5c477C_W_640_10000.jpg?proc=autoorient",
       desc:"安静的老街和洋房街区，傍晚散步比较舒服。"
     }
@@ -554,8 +554,8 @@ const cityRouteData = {
     },
     {
       title:"12/9 浏览线路与安排",
-      text:"大连熟食品交易中心 → 三寰西南路综合批发市场 → 莲花山看海 → 回酒店吃饭、休息 → 中山广场 → 大连中山广场近代建筑群 → 大连日本宪兵队本部旧址 → 南山街 → 吃晚饭 → 星海广场 → 回酒店",
-      pointIds:["cookedfood","sanhuanmarket","lianhuashan","zhongshan","modernbuildings","gendarmerie","nanshan","xinghai"]
+      text:"莲花山看海 → 大连熟食品交易中心 → 三寰西南路综合批发市场吃饭 → 回酒店睡午觉 → 从酒店出发 → 中山广场 → 大连中山广场近代建筑群 → 大连日本宪兵队本部旧址 → 南山街 → 吃晚饭 → 星海广场 → 回酒店",
+      pointIds:["lianhuashan","cookedfood","sanhuanmarket","atour","zhongshan","modernbuildings","gendarmerie","nanshan","xinghai","atour"]
     }
   ]
 };
@@ -604,8 +604,8 @@ updateDayCard(
 
 updateDayCard(
   "12/9",
-  `上午：大连熟食品交易中心 → 三寰西南路综合批发市场 → 莲花山看海 → 回酒店吃饭、休息。<br>
-   <strong>下午至晚上：</strong>中山广场 → 大连中山广场近代建筑群 → 大连日本宪兵队本部旧址 → 南山街 → 吃晚饭 → 星海广场 → 回酒店。`
+  `上午：莲花山看海 → 大连熟食品交易中心 → 三寰西南路综合批发市场吃饭 → 回酒店睡午觉。<br>
+   <strong>下午至晚上：</strong>从酒店出发 → 中山广场 → 大连中山广场近代建筑群 → 大连日本宪兵队本部旧址 → 南山街 → 吃晚饭 → 星海广场 → 回酒店。`
 );
 
 /* =========================
@@ -778,6 +778,7 @@ cities.forEach(city => {
       <span>🏨 住宿</span>
       <span>📍 景点</span>
       <span>🍽️ 餐馆</span>
+      ${city.slug === "dalian" ? '<span style="color:#1f5fae">━ 12/8</span><span style="color:#d91e36">━ 12/9</span>' : ""}
     </div>
     <div class="route-plan">
       ${renderRouteEntries(routeEntries, points)}
@@ -794,7 +795,7 @@ cities.forEach(city => {
     if (routeEntries.length > 0) {
       const byId = Object.fromEntries(points.map(p => [p.id, p]));
 
-      const lineColors = ["#1f5fae", "#c97b20", "#217a53"];
+      const lineColors = ["#1f5fae", "#d91e36", "#217a53"];
 
       routeEntries.forEach((entry, idx) => {
         const routePoints = (entry.pointIds || [])
@@ -804,9 +805,9 @@ cities.forEach(city => {
 
         if (routePoints.length > 1) {
           L.polyline(routePoints, {
-            weight:4,
-            opacity:0.78,
-            dashArray: idx === 0 ? "0" : "8 8",
+            weight: idx === 1 ? 7 : 4,
+            opacity: idx === 1 ? 0.95 : 0.78,
+            dashArray: idx === 0 ? "0" : "12 8",
             color: lineColors[idx % lineColors.length]
           }).addTo(cityMap);
         }
