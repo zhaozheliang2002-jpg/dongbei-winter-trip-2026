@@ -67,7 +67,7 @@ td{font-size:19px}
 .point{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fafcff}
 .point strong{display:block}
 .route-plan{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
-.hotel-map-icon{background:transparent;border:none}
+.custom-map-icon{background:transparent;border:none}
 .action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 16px;border-radius:12px;text-decoration:none;font-weight:800;border:1px solid #aac2e4;background:var(--blue-soft);color:#174a89}
 .empty{color:var(--muted);background:#f8fafc;border:1px dashed #b8c4d4;border-radius:14px;padding:12px 14px}
@@ -152,7 +152,7 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
   <h2 class="section-title">每日行程</h2>
   <p class="section-sub">转场日已单独标出，方便一眼区分。</p>
   <div class="timeline">
-    <div class="day-card"><div class="day-date">12/8</div><div><div class="day-city">宁波 → 大连</div><div class="day-meta">✈️ 08:10 宁波栎社 T2 起飞 · 东方航空 MU6559<br>10:10 抵达大连周水子</div></div></div>
+    <div class="day-card"><div class="day-date">12/8</div><div><div class="day-city">宁波 → 大连</div><div class="day-meta">✈️ 08:10 宁波栎社 T2 起飞 · 东方航空 MU6559<br>10:10 抵达大连周水子国际机场<br><strong>安排：</strong>机场 → 酒店 → 吃午饭 → 睡午觉 → 达里尼市政厅旧址 → 大连铁道1896花园酒店 → 大连美术馆 → 中山广场 → 大连日本宪兵队本部旧址 → 大连中山广场近代建筑群</div></div></div>
     <div class="day-card"><div class="day-date">12/9</div><div><div class="day-city">大连</div><div class="day-meta">全天行程待添加</div></div></div>
     <div class="day-card transfer"><div class="day-date">12/10</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">大连 → 沈阳</div></div></div>
     <div class="day-card"><div class="day-date">12/11</div><div><div class="day-city">沈阳</div><div class="day-meta">全天行程待添加</div></div></div>
@@ -210,7 +210,7 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
 
 <section class="section">
   <h2 class="section-title">各城市地图、点位与安排</h2>
-  <p class="section-sub">已确认酒店会直接标在真实地图上；每个城市下方预留“浏览线路与安排”，由你之后添加。</p>
+  <p class="section-sub">地图只区分机场、住宿、景点和餐馆四类点位；每个城市下方接着显示浏览线路与安排。</p>
   <div class="city-grid" id="cityGrid"></div>
 </section>
 
@@ -247,69 +247,76 @@ const cities = [
 const cityPointData = {
   dalian: [
     {
+      id:"airport",
       name:"大连周水子国际机场",
       type:"airport",
-      label:"✈️ 机场",
-      lat:38.964154,
-      lng:121.542585
+      label:"机场",
+      lat:38.963287,
+      lng:121.537545
     },
     {
-      name:"达里尼市政厅旧址",
-      type:"historic",
-      label:"🏛️ 历史旧址",
-      lat:38.9339,
-      lng:121.6254
-    },
-    {
+      id:"atour",
       name:"大连星海广场百年城雕海景亚朵见野酒店",
       type:"hotel",
-      label:"🏨 酒店",
-      lat:38.8754,
-      lng:121.5917
+      label:"住宿",
+      lat:38.874625,
+      lng:121.586811
     },
     {
-      name:"大连铁道1896花园酒店",
-      type:"hotel",
-      label:"🏨 酒店",
-      lat:38.92516,
-      lng:121.63179
-    },
-    {
-      name:"大连美术馆",
-      type:"museum",
-      label:"🖼️ 美术馆",
-      lat:38.927331,
-      lng:121.637556
-    },
-    {
-      name:"中山广场",
-      type:"square",
-      label:"📍 广场",
-      lat:38.921549,
-      lng:121.643827
-    },
-    {
-      name:"大连日本宪兵队本部旧址",
-      type:"historic",
-      label:"🏛️ 历史旧址",
-      lat:38.9229,
-      lng:121.6577
-    },
-    {
-      name:"大连中山广场近代建筑群",
-      type:"historic",
-      label:"🏛️ 建筑群",
-      lat:38.920409,
-      lng:121.644391
-    },
-
-    /* 原来已经确认的另一家住宿继续保留 */
-    {
+      id:"homeinn",
       name:"如家精选酒店（大连星海广场会展中心店）",
       type:"hotel",
-      label:"🏨 酒店",
-      lat:38.882038,
-      lng:121.591793
+      label:"住宿",
+      lat:38.881285,
+      lng:121.586855
+    },
+    {
+      id:"dalnihall",
+      name:"达里尼市政厅旧址",
+      type:"attraction",
+      label:"景点",
+      lat:38.930050,
+      lng:121.628700
+    },
+    {
+      id:"rail1896",
+      name:"大连铁道1896花园酒店",
+      type:"attraction",
+      label:"景点",
+      lat:38.925151,
+      lng:121.631812
+    },
+    {
+      id:"artmuseum",
+      name:"大连美术馆",
+      type:"attraction",
+      label:"景点",
+      lat:38.926520,
+      lng:121.632585
+    },
+    {
+      id:"zhongshan",
+      name:"中山广场",
+      type:"attraction",
+      label:"景点",
+      lat:38.920732,
+      lng:121.638846
+    },
+    {
+      id:"gendarmerie",
+      name:"大连日本宪兵队本部旧址",
+      type:"attraction",
+      label:"景点",
+      lat:38.922100,
+      lng:121.652700
+    },
+    {
+      id:"modernbuildings",
+      name:"大连中山广场近代建筑群",
+      type:"attraction",
+      label:"景点",
+      lat:38.919592,
+      lng:121.639409
     }
   ],
 
@@ -317,16 +324,16 @@ const cityPointData = {
     {
       name:"沈阳迎宾馆",
       type:"hotel",
-      label:"🏨 酒店",
-      lat:41.802304,
-      lng:123.427713
+      label:"住宿",
+      lat:41.799871,
+      lng:123.421573
     },
     {
       name:"如家酒店（沈阳市府大路西塔北市场店）",
       type:"hotel",
-      label:"🏨 酒店",
-      lat:41.803720,
-      lng:123.420829
+      label:"住宿",
+      lat:41.801281,
+      lng:123.414683
     }
   ],
 
@@ -337,51 +344,32 @@ const cityPointData = {
   harbin: []
 };
 
+const cityRouteData = {
+  dalian: {
+    title:"12/8 浏览线路与安排",
+    text:"机场 → 酒店 → 吃午饭 → 睡午觉 → 达里尼市政厅旧址 → 大连铁道1896花园酒店 → 大连美术馆 → 中山广场 → 大连日本宪兵队本部旧址 → 大连中山广场近代建筑群",
+    pointIds:["airport","atour","dalnihall","rail1896","artmuseum","zhongshan","gendarmerie","modernbuildings"]
+  }
+};
+
 
 /* ========= 地图图标 ========= */
 
 const mapIcons = {};
 
 if (window.L) {
-  mapIcons.hotel = L.divIcon({
+  const mk = (symbol) => L.divIcon({
     className:"custom-map-icon",
-    html:'<div style="font-size:28px">🏨</div>',
+    html:'<div style="font-size:28px;line-height:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))">'+symbol+'</div>',
     iconSize:[34,34],
     iconAnchor:[17,28],
     popupAnchor:[0,-24]
   });
 
-  mapIcons.airport = L.divIcon({
-    className:"custom-map-icon",
-    html:'<div style="font-size:28px">✈️</div>',
-    iconSize:[34,34],
-    iconAnchor:[17,28],
-    popupAnchor:[0,-24]
-  });
-
-  mapIcons.historic = L.divIcon({
-    className:"custom-map-icon",
-    html:'<div style="font-size:28px">🏛️</div>',
-    iconSize:[34,34],
-    iconAnchor:[17,28],
-    popupAnchor:[0,-24]
-  });
-
-  mapIcons.museum = L.divIcon({
-    className:"custom-map-icon",
-    html:'<div style="font-size:28px">🖼️</div>',
-    iconSize:[34,34],
-    iconAnchor:[17,28],
-    popupAnchor:[0,-24]
-  });
-
-  mapIcons.square = L.divIcon({
-    className:"custom-map-icon",
-    html:'<div style="font-size:28px">📍</div>',
-    iconSize:[34,34],
-    iconAnchor:[17,28],
-    popupAnchor:[0,-24]
-  });
+  mapIcons.airport = mk("✈️");
+  mapIcons.hotel = mk("🏨");
+  mapIcons.attraction = mk("📍");
+  mapIcons.restaurant = mk("🍽️");
 }
 
 
@@ -484,6 +472,8 @@ cities.forEach(city => {
   const block = document.createElement("section");
   block.className = "city-block";
 
+  const routeInfo = cityRouteData[city.slug];
+
   block.innerHTML = `
     <h3>📍 ${city.name}</h3>
 
@@ -503,21 +493,14 @@ cities.forEach(city => {
     ></div>
 
     <div class="route-plan">
-      <strong>浏览线路与安排</strong>
-
-      <div
-        class="empty"
-        style="margin-top:8px"
-      >
-        待添加
+      <strong>${routeInfo ? routeInfo.title : "浏览线路与安排"}</strong>
+      <div class="empty" style="margin-top:8px">
+        ${routeInfo ? routeInfo.text : "待添加"}
       </div>
     </div>
   `;
 
   cityGrid.appendChild(block);
-
-
-  /* ---------- 建立城市地图 ---------- */
 
   const cityMap = makeMap(
     "map-" + city.slug,
@@ -527,43 +510,32 @@ cities.forEach(city => {
 
   const points = cityPointData[city.slug] || [];
 
-
   if (cityMap) {
 
-    /* 城市中心点 */
-    L.circleMarker(
-      [city.lat, city.lng],
-      {
-        radius:6,
-        weight:2,
-        fillOpacity:0.7
-      }
-    )
-    .addTo(cityMap)
-    .bindPopup(
-      "<strong>" +
-      city.name +
-      "</strong><br>" +
-      city.dates
-    );
-
-
-    /* 所有具体点位 */
     points.forEach(point => {
       addMarker(cityMap, point);
     });
 
+    if (routeInfo) {
+      const byId = Object.fromEntries(points.map(p => [p.id, p]));
+      const routePoints = routeInfo.pointIds
+        .map(id => byId[id])
+        .filter(Boolean)
+        .map(p => [p.lat, p.lng]);
 
-    /* 自动调整地图，让所有点都能看到 */
+      if (routePoints.length > 1) {
+        L.polyline(routePoints, {
+          weight:4,
+          opacity:0.72,
+          dashArray:"8 8",
+          color:"#1f5fae"
+        }).addTo(cityMap);
+      }
+    }
+
     if (points.length > 0) {
-
-      const allCoordinates = [
-        [city.lat, city.lng],
-        ...points.map(p => [p.lat, p.lng])
-      ];
-
       cityMap.fitBounds(
-        allCoordinates,
+        points.map(p => [p.lat, p.lng]),
         {
           padding:[35,35],
           maxZoom:13
@@ -572,64 +544,34 @@ cities.forEach(city => {
     }
   }
 
-
-  /* ---------- 点位文字列表 ---------- */
-
-  const list = block.querySelector(
-    "#points-" + city.slug
-  );
+  const list = block.querySelector("#points-" + city.slug);
 
   if (points.length > 0) {
-
     points.forEach(point => {
-
       const item = document.createElement("div");
-
       item.className = "point";
-
       item.innerHTML = `
         <strong>${point.name}</strong>
         <span>${point.label}</span>
       `;
-
       list.appendChild(item);
     });
-
   } else {
-
     const empty = document.createElement("div");
-
     empty.className = "empty";
-
-    empty.textContent =
-      "酒店 / 车站 / 景点 / 餐厅：待添加点位";
-
+    empty.textContent = "住宿 / 景点 / 餐馆：待添加点位";
     list.appendChild(empty);
   }
 
-
-  /* ---------- 地图加载失败 ---------- */
-
   if (!cityMap) {
-
     const mapDiv = block.querySelector(".map");
-
     mapDiv.style.display = "none";
 
-    const fallback =
-      document.createElement("div");
-
+    const fallback = document.createElement("div");
     fallback.className = "map-fallback";
     fallback.style.display = "block";
-
-    fallback.textContent =
-      "地图暂时没有加载成功。";
-
-    block.insertBefore(
-      fallback,
-      list
-    );
+    fallback.textContent = "地图暂时没有加载成功。";
+    block.insertBefore(fallback, list);
   }
 
-});
-</script>
+});</script>
