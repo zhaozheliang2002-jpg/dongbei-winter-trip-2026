@@ -70,15 +70,15 @@ td{font-size:19px}
 .custom-map-icon{background:transparent;border:none}
   .city-block .map.small{height:440px}
   .leaflet-tooltip.city-place-label{
-    font-size:17px;
-    font-weight:800;
-    line-height:1.35;
+    font-size:14px;
+    font-weight:700;
+    line-height:1.25;
     color:#172033;
     background:#fff;
-    border:2px solid #9fb5d4;
-    border-radius:9px;
-    padding:7px 9px;
-    box-shadow:0 2px 8px rgba(0,0,0,.14);
+    border:1.5px solid #9fb5d4;
+    border-radius:8px;
+    padding:4px 6px;
+    box-shadow:0 2px 6px rgba(0,0,0,.12);
     white-space:nowrap;
   }
   .map-legend{
@@ -294,6 +294,8 @@ extraStyle.textContent = `
   }
   .route-stop-list{display:grid;gap:18px;margin-top:20px}
   .route-stop{
+    display:grid;
+    grid-template-columns:40% 60%;
     border:1px solid var(--line);
     border-radius:18px;
     overflow:hidden;
@@ -301,13 +303,19 @@ extraStyle.textContent = `
   }
   .route-stop img{
     width:100%;
-    height:300px;
+    height:100%;
+    min-height:220px;
     object-fit:cover;
     display:block;
     background:#eef2f7;
   }
-  .route-stop-body{padding:16px 18px 18px}
-  .route-stop-name{font-size:23px;font-weight:900;line-height:1.45}
+  .route-stop-body{
+    padding:18px 18px 18px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .route-stop-name{font-size:22px;font-weight:900;line-height:1.4}
   .route-stop-desc{margin-top:8px;font-size:18px;line-height:1.75;color:#35445b}
   .route-stop-badge{
     display:inline-block;
@@ -359,7 +367,8 @@ const cityPointData = {
       type:"airport",
       label:"机场",
       lat:38.963287,
-      lng:121.537545
+      lng:121.537545,
+      labelDir:"bottom"
     },
     {
       id:"atour",
@@ -367,7 +376,8 @@ const cityPointData = {
       type:"hotel",
       label:"住宿",
       lat:38.874625,
-      lng:121.586811
+      lng:121.586811,
+      labelDir:"left"
     },
     {
       id:"homeinn",
@@ -375,7 +385,8 @@ const cityPointData = {
       type:"hotel",
       label:"住宿",
       lat:38.881285,
-      lng:121.586855
+      lng:121.586855,
+      labelDir:"right"
     },
     {
       id:"dalnihall",
@@ -476,7 +487,8 @@ const cityPointData = {
       type:"hotel",
       label:"住宿",
       lat:41.799871,
-      lng:123.421573
+      lng:123.421573,
+      labelDir:"top"
     },
     {
       id:"shenyang-homeinn",
@@ -613,12 +625,20 @@ function addMarker(map, point) {
     mapIcons[point.type] ? {icon:mapIcons[point.type]} : {}
   ).addTo(map);
 
+  const direction = point.labelDir || "top";
+
+  let offset = [0, -18];
+  if (direction === "bottom") offset = [0, 18];
+  if (direction === "left") offset = [-18, 0];
+  if (direction === "right") offset = [18, 0];
+
   marker.bindTooltip(point.name, {
     permanent:true,
-    direction:"top",
-    offset:[0,-24],
+    direction:direction,
+    offset:offset,
     className:"city-place-label"
   });
+
   return marker;
 }
 
