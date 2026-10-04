@@ -545,7 +545,7 @@ const citySection = [...document.querySelectorAll(".section")].find(sec =>
 if (citySection) {
   const sub = citySection.querySelector(".section-sub");
   if (sub) {
-    sub.textContent = "城市地图采用静态展示，不需要点击或拖动；点位名称直接显示，字体加大，方便老人一眼看清。";
+    sub.textContent = "城市地图采用静态展示，不需要点击或拖动；地图上只保留简洁图标，具体名称与安排放在线路说明中。";
   }
 }
 
@@ -624,20 +624,6 @@ function addMarker(map, point) {
     [point.lat, point.lng],
     mapIcons[point.type] ? {icon:mapIcons[point.type]} : {}
   ).addTo(map);
-
-  const direction = point.labelDir || "top";
-
-  let offset = [0, -18];
-  if (direction === "bottom") offset = [0, 18];
-  if (direction === "left") offset = [-18, 0];
-  if (direction === "right") offset = [18, 0];
-
-  marker.bindTooltip(point.name, {
-    permanent:true,
-    direction:direction,
-    offset:offset,
-    className:"city-place-label"
-  });
 
   return marker;
 }
