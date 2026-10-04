@@ -439,6 +439,44 @@ const cityPointData = {
       desc:"饭后看海边夜景；若当晚喷泉开放，再顺便看喷泉。"
     },
     {
+      id:"cookedfood",
+      name:"大连熟食品交易中心",
+      type:"attraction",
+      label:"市场",
+      lat:38.903435,
+      lng:121.558865,
+      desc:"本地大型熟食和农副产品市场，适合上午逛。"
+    },
+    {
+      id:"sanhuanmarket",
+      name:"三寰西南路综合批发市场",
+      type:"attraction",
+      label:"市场",
+      lat:38.903100,
+      lng:121.557300,
+      desc:"和熟食品交易中心在同一片西南路市场区域，可顺路一起逛。"
+    },
+    {
+      id:"lianhuashan",
+      name:"莲花山看海",
+      type:"attraction",
+      label:"景点",
+      lat:38.885919,
+      lng:121.621665,
+      image:"https://dimg04.c-ctrip.com/images/1me3r12000r2lpeou1BD4.jpg?proc=source%2Ftripcommunity",
+      desc:"登高看星海湾、跨海大桥和海岸线，视野开阔。"
+    },
+    {
+      id:"xinghai",
+      name:"星海广场",
+      type:"attraction",
+      label:"景点",
+      lat:38.881252,
+      lng:121.582981,
+      image:"https://dimg04.c-ctrip.com/images/10030m000000dh6gk74E3_R_1000_500.jpg_.webp?proc=namelogo%2Fd_5",
+      desc:"晚上看海边广场和城市夜景，行程收尾比较轻松。"
+    },
+    {
       id:"zhongshan",
       name:"中山广场",
       type:"attraction",
@@ -516,8 +554,8 @@ const cityRouteData = {
     },
     {
       title:"12/9 浏览线路与安排",
-      text:"上午去看海（具体点位待补） → 中午吃饭 → 回酒店休息 → 下午：中山广场 → 大连中山广场近代建筑群 → 大连日本宪兵队本部旧址 → 南山街 → 吃晚饭 → 回去休息",
-      pointIds:["zhongshan","modernbuildings","gendarmerie","nanshan"]
+      text:"大连熟食品交易中心 → 三寰西南路综合批发市场 → 莲花山看海 → 回酒店吃饭、休息 → 中山广场 → 大连中山广场近代建筑群 → 大连日本宪兵队本部旧址 → 南山街 → 吃晚饭 → 星海广场 → 回酒店",
+      pointIds:["cookedfood","sanhuanmarket","lianhuashan","zhongshan","modernbuildings","gendarmerie","nanshan","xinghai"]
     }
   ]
 };
@@ -566,8 +604,8 @@ updateDayCard(
 
 updateDayCard(
   "12/9",
-  `上午看海（具体点位待补）；中午吃饭后回酒店休息。<br>
-   <strong>下午线路见下方“大连”城市安排。</strong>`
+  `上午：大连熟食品交易中心 → 三寰西南路综合批发市场 → 莲花山看海 → 回酒店吃饭、休息。<br>
+   <strong>下午至晚上：</strong>中山广场 → 大连中山广场近代建筑群 → 大连日本宪兵队本部旧址 → 南山街 → 吃晚饭 → 星海广场 → 回酒店。`
 );
 
 /* =========================
@@ -673,7 +711,7 @@ function renderRouteStop(point) {
       ${point.image ? `<img src="${point.image}" alt="${point.name}" loading="lazy">` : ""}
       <div class="route-stop-body">
         <div class="route-stop-name">${point.name}</div>
-        <span class="route-stop-badge">景点</span>
+        <span class="route-stop-badge">${point.label || "景点"}</span>
         ${point.desc ? `<div class="route-stop-desc">${point.desc}</div>` : ""}
       </div>
     </article>
