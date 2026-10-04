@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>东北冬季旅行 2026</title>
+<meta name="description" content="2026年12月东北冬季旅行行程" />
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+<style>
+:root{
+  --bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#58667c;--line:#dbe2ec;
+  --blue:#1f5fae;--blue-soft:#eaf2ff;--green:#217a53;--green-soft:#eaf7f0;
+  --orange:#a95c00;--orange-soft:#fff4df;--red:#a33232;--red-soft:#fff0f0;
+  --shadow:0 8px 24px rgba(26,48,77,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:20px;line-height:1.72}
+a{color:inherit}
+.container{max-width:1180px;margin:0 auto;padding:24px}
+.hero{background:linear-gradient(135deg,#193b67,#234f84);color:#fff;border-radius:28px;padding:34px;box-shadow:var(--shadow)}
+.hero h1{font-size:42px;line-height:1.2;margin:0 0 14px}
+.hero p{font-size:21px;margin:6px 0;color:#eef5ff}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.badge{padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);font-weight:700}
+.section{margin-top:28px}
+.section-title{font-size:32px;margin:0 0 16px}
+.section-sub{margin:-8px 0 16px;color:var(--muted);font-size:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.quick-stat{min-height:120px}
+.quick-stat .label{color:var(--muted);font-size:17px}
+.quick-stat .value{font-size:26px;font-weight:800;margin-top:8px}
+.route-strip{display:flex;align-items:center;gap:10px;overflow-x:auto;padding:10px 2px 6px}
+.route-city{flex:0 0 auto;background:var(--blue-soft);border:2px solid #b9cff0;border-radius:16px;padding:12px 16px;font-weight:800}
+.route-arrow{font-size:28px;color:#6c7f99;flex:0 0 auto}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;background:#fff}
+th,td{padding:16px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:18px;color:#40506a;background:#f8fafc}
+td{font-size:19px}
+.timeline{display:grid;gap:14px}
+.day-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px 22px;box-shadow:var(--shadow);display:grid;grid-template-columns:150px 1fr;gap:20px}
+.day-date{font-size:26px;font-weight:900;color:var(--blue)}
+.day-city{font-size:25px;font-weight:900;margin-bottom:8px}
+.day-meta{color:var(--muted)}
+.transfer{border-left:8px solid #e2a33c}
+.transfer-tag{display:inline-block;background:var(--orange-soft);color:var(--orange);font-weight:800;padding:6px 10px;border-radius:999px;margin-bottom:8px}
+.flight-card{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center}
+.flight-time{font-size:34px;font-weight:900}
+.flight-airport{font-size:18px;color:var(--muted)}
+.flight-arrow{font-size:34px;color:var(--blue)}
+.hotel-group{display:grid;grid-template-columns:140px 1fr;gap:16px;align-items:stretch}
+.people-box{display:flex;align-items:center;justify-content:center;flex-direction:column;background:var(--green-soft);border:2px solid #b8dfca;border-radius:18px;font-weight:900}
+.people-box .n{font-size:34px}
+.hotel-name{font-size:23px;font-weight:900}
+.note{margin-top:12px;background:var(--red-soft);border:1px solid #f1caca;color:var(--red);border-radius:14px;padding:12px 14px;font-weight:700}
+.map{height:520px;border-radius:20px;border:1px solid var(--line);overflow:hidden;background:#e9eef5}
+.map.small{height:360px}
+.map-fallback{display:none;padding:22px;background:#fff6e8;border:1px solid #f2cf9f;border-radius:16px;color:#784a0a}
+.city-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.city-block{background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+.city-block h3{font-size:27px;margin:0 0 8px}
+.point-list{display:grid;gap:10px;margin-top:12px}
+.point{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fafcff}
+.point strong{display:block}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 16px;border-radius:12px;text-decoration:none;font-weight:800;border:1px solid #aac2e4;background:var(--blue-soft);color:#174a89}
+.empty{color:var(--muted);background:#f8fafc;border:1px dashed #b8c4d4;border-radius:14px;padding:12px 14px}
+.leader{background:#f8fafc;border:2px solid #cad5e4}
+.leader-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.leader-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.leader-item strong{display:block;margin-bottom:6px}
+.pending{color:#8b6500}
+footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
+@media(max-width:820px){
+ body{font-size:18px}.container{padding:14px}.hero{padding:24px;border-radius:22px}.hero h1{font-size:33px}.hero p{font-size:18px}
+ .section-title{font-size:28px}.grid-2,.grid-3,.city-grid,.leader-grid{grid-template-columns:1fr}
+ .day-card{grid-template-columns:1fr;gap:8px}.day-date{font-size:23px}.day-city{font-size:24px}
+ .flight-card{grid-template-columns:1fr auto 1fr}.flight-time{font-size:28px}.flight-airport{font-size:16px}
+ .hotel-group{grid-template-columns:110px 1fr}.map{height:420px}.map.small{height:320px}
+ th,td{padding:14px 10px;font-size:17px}
+ .btn{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header class="hero">
+  <h1>东北冬季旅行</h1>
+  <p><strong>2026年12月8日—12月22日</strong></p>
+  <p>大连 → 沈阳 → 长春 → 长白山 → 延吉 → 珲春 → 哈尔滨</p>
+  <div class="badges">
+    <span class="badge">12/8–12/12：5人同行</span>
+    <span class="badge">12/12之后：人数待确认</span>
+    <span class="badge">宁波进 · 哈尔滨出</span>
+  </div>
+</header>
+
+<section class="section">
+  <h2 class="section-title">旅行总览</h2>
+  <div class="grid-3">
+    <div class="card quick-stat"><div class="label">出发</div><div class="value">12月8日 · 宁波</div></div>
+    <div class="card quick-stat"><div class="label">返程</div><div class="value">12月22日 · 哈尔滨</div></div>
+    <div class="card quick-stat"><div class="label">同行人数</div><div class="value">前半段 5 人</div></div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <div class="route-strip">
+      <span class="route-city">大连</span><span class="route-arrow">→</span>
+      <span class="route-city">沈阳</span><span class="route-arrow">→</span>
+      <span class="route-city">长春</span><span class="route-arrow">→</span>
+      <span class="route-city">长白山</span><span class="route-arrow">→</span>
+      <span class="route-city">延吉</span><span class="route-arrow">→</span>
+      <span class="route-city">珲春</span><span class="route-arrow">→</span>
+      <span class="route-city">哈尔滨</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">日期｜城市｜住宿地</h2>
+  <div class="card table-wrap">
+  <table>
+    <thead><tr><th>日期</th><th>城市</th><th>住宿地</th></tr></thead>
+    <tbody>
+      <tr><td>12/8</td><td>宁波 → 大连</td><td>大连</td></tr>
+      <tr><td>12/9</td><td>大连</td><td>大连</td></tr>
+      <tr><td>12/10</td><td>大连 → 沈阳</td><td>沈阳</td></tr>
+      <tr><td>12/11</td><td>沈阳</td><td>沈阳</td></tr>
+      <tr><td>12/12</td><td>沈阳 → 长春</td><td>长春</td></tr>
+      <tr><td>12/13</td><td>长春 → 长白山</td><td>长白山</td></tr>
+      <tr><td>12/14</td><td>长白山</td><td>长白山</td></tr>
+      <tr><td>12/15</td><td>长白山</td><td>长白山</td></tr>
+      <tr><td>12/16</td><td>长白山 → 延吉</td><td>延吉</td></tr>
+      <tr><td>12/17</td><td>延吉 → 珲春</td><td>珲春</td></tr>
+      <tr><td>12/18</td><td>珲春</td><td>珲春</td></tr>
+      <tr><td>12/19</td><td>珲春 → 哈尔滨</td><td>哈尔滨</td></tr>
+      <tr><td>12/20</td><td>哈尔滨</td><td>哈尔滨</td></tr>
+      <tr><td>12/21</td><td>哈尔滨</td><td>哈尔滨</td></tr>
+      <tr><td>12/22</td><td>哈尔滨 → 宁波</td><td>—</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">每日行程</h2>
+  <p class="section-sub">转场日已单独标出，方便一眼区分。</p>
+  <div class="timeline">
+    <div class="day-card"><div class="day-date">12/8</div><div><div class="day-city">宁波 → 大连</div><div class="day-meta">✈️ 08:10 宁波栎社 T2 起飞 · 东方航空 MU6559<br>10:10 抵达大连周水子</div></div></div>
+    <div class="day-card"><div class="day-date">12/9</div><div><div class="day-city">大连</div><div class="day-meta">全天行程待添加</div></div></div>
+    <div class="day-card transfer"><div class="day-date">12/10</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">大连 → 沈阳</div></div></div>
+    <div class="day-card"><div class="day-date">12/11</div><div><div class="day-city">沈阳</div><div class="day-meta">全天行程待添加</div></div></div>
+    <div class="day-card transfer"><div class="day-date">12/12</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">沈阳 → 长春</div></div></div>
+    <div class="day-card transfer"><div class="day-date">12/13</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">长春 → 长白山</div></div></div>
+    <div class="day-card"><div class="day-date">12/14</div><div><div class="day-city">长白山</div><div class="day-meta">全天行程待添加</div></div></div>
+    <div class="day-card"><div class="day-date">12/15</div><div><div class="day-city">长白山</div><div class="day-meta">全天行程待添加</div></div></div>
+    <div class="day-card transfer"><div class="day-date">12/16</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">长白山 → 延吉</div></div></div>
+    <div class="day-card transfer"><div class="day-date">12/17</div><div><span class="transfer-tag">🚄 短途转场</span><div class="day-city">延吉 → 珲春</div></div></div>
+    <div class="day-card"><div class="day-date">12/18</div><div><div class="day-city">珲春</div><div class="day-meta">完整一天 · 防川 / “一眼望三国”</div></div></div>
+    <div class="day-card transfer"><div class="day-date">12/19</div><div><span class="transfer-tag">🚄 长距离转场</span><div class="day-city">珲春 → 哈尔滨</div></div></div>
+    <div class="day-card"><div class="day-date">12/20</div><div><div class="day-city">哈尔滨</div><div class="day-meta">全天行程待添加</div></div></div>
+    <div class="day-card"><div class="day-date">12/21</div><div><div class="day-city">哈尔滨</div><div class="day-meta">全天行程待添加</div></div></div>
+    <div class="day-card"><div class="day-date">12/22</div><div><div class="day-city">哈尔滨 → 宁波</div><div class="day-meta">✈️ 11:40 哈尔滨太平 T2 起飞 · 春秋航空 9C8684<br>14:55 抵达宁波栎社 T2</div></div></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">住宿安排</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3 style="font-size:28px;margin-top:0">🏨 大连 · 12/8–12/10</h3>
+      <div class="hotel-group"><div class="people-box"><span class="n">4人</span></div><div><div class="hotel-name">星海广场百年城雕海景亚朵见野酒店</div></div></div>
+      <div class="hotel-group" style="margin-top:14px"><div class="people-box"><span class="n">1人</span></div><div><div class="hotel-name">如家精选酒店（大连星海广场会展中心店）</div></div></div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:28px;margin-top:0">🏨 沈阳 · 12/10–12/12</h3>
+      <div class="hotel-group"><div class="people-box"><span class="n">4人</span></div><div><div class="hotel-name">沈阳迎宾馆</div><div class="note">⚠️ 房费尚未支付，目前只付了押金；兑换券尚未兑换。</div></div></div>
+      <div class="hotel-group" style="margin-top:14px"><div class="people-box"><span class="n">1人</span></div><div><div class="hotel-name">如家酒店（沈阳市府大路西塔北市场店）</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">航班与交通</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div style="font-weight:900;margin-bottom:12px">✈️ 12/8 · MU6559</div>
+      <div class="flight-card">
+        <div><div class="flight-time">08:10</div><div class="flight-airport">宁波栎社 T2</div></div>
+        <div class="flight-arrow">→</div>
+        <div><div class="flight-time">10:10</div><div class="flight-airport">大连周水子</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-weight:900;margin-bottom:12px">✈️ 12/22 · 9C8684</div>
+      <div class="flight-card">
+        <div><div class="flight-time">11:40</div><div class="flight-airport">哈尔滨太平 T2</div></div>
+        <div class="flight-arrow">→</div>
+        <div><div class="flight-time">14:55</div><div class="flight-airport">宁波栎社 T2</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">🗺️ 总路线地图</h2>
+  <p class="section-sub">真实地图底图；连线只表示城市顺序，不代表实际铁路或驾车线路。</p>
+  <div id="routeMap" class="map"></div>
+  <div id="routeMapFallback" class="map-fallback">地图暂时没有加载成功。可稍后刷新页面重试。</div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">各城市地图与点位</h2>
+  <p class="section-sub">目前只保留已确认住宿；景点、餐厅、车站等由你后续手动添加。</p>
+  <div class="city-grid" id="cityGrid"></div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">⚠️ 待确认事项</h2>
+  <div class="card">
+    <div class="pending"><strong>沈阳迎宾馆：</strong>房费尚未支付，目前只付了押金；兑换券尚未兑换。</div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">领队专区</h2>
+  <p class="section-sub">仅供领队 / 年轻人查看。内容由你后续手动补充。</p>
+  <div class="card leader">
+    <div class="leader-grid">
+      <div class="leader-item"><strong>交通细节</strong><span class="empty">待添加</span></div>
+      <div class="leader-item"><strong>酒店 / 入住事项</strong><span class="empty">待添加</span></div>
+      <div class="leader-item"><strong>付款 / 兑换 / 订单事项</strong><span class="empty">待添加</span></div>
+      <div class="leader-item"><strong>当日集合点</strong><span class="empty">待添加</span></div>
+      <div class="leader-item"><strong>联系方式</strong><span class="empty">待添加</span></div>
+      <div class="leader-item"><strong>应急备注</strong><span class="empty">待添加</span></div>
+      <div class="leader-item"><strong>其他</strong><span class="empty">待添加</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>东北冬季旅行 · 2026</footer>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+const cities=[
+ {name:"大连",lat:38.9140,lng:121.6147,dates:"12/8–12/10",slug:"dalian"},
+ {name:"沈阳",lat:41.8057,lng:123.4315,dates:"12/10–12/12",slug:"shenyang"},
+ {name:"长春",lat:43.8171,lng:125.3235,dates:"12/12–12/13",slug:"changchun"},
+ {name:"长白山",lat:42.0062,lng:128.0553,dates:"12/13–12/16",slug:"changbaishan"},
+ {name:"延吉",lat:42.8913,lng:129.5089,dates:"12/16–12/17",slug:"yanji"},
+ {name:"珲春",lat:42.8624,lng:130.3658,dates:"12/17–12/19",slug:"hunchun"},
+ {name:"哈尔滨",lat:45.8038,lng:126.5349,dates:"12/19–12/22",slug:"harbin"}
+];
+const hotelData={
+ dalian:[
+   {name:"星海广场百年城雕海景亚朵见野酒店",people:"4人"},
+   {name:"如家精选酒店（大连星海广场会展中心店）",people:"1人"}
+ ],
+ shenyang:[
+   {name:"沈阳迎宾馆",people:"4人"},
+   {name:"如家酒店（沈阳市府大路西塔北市场店）",people:"1人"}
+ ]
+};
+function amapSearch(name){return "https://uri.amap.com/search?keyword="+encodeURIComponent(name)+"&callnative=1"}
+function makeMap(id,center,zoom,markers=[]){
+ try{
+   if(!window.L) throw new Error("Leaflet unavailable");
+   const map=L.map(id,{scrollWheelZoom:true}).setView(center,zoom);
+   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"&copy; OpenStreetMap contributors"}).addTo(map);
+   markers.forEach(m=>L.marker([m.lat,m.lng]).addTo(map).bindPopup("<b>"+m.name+"</b>"+(m.note?"<br>"+m.note:"")));
+   return map;
+ }catch(e){return null}
+}
+const routeMap=makeMap("routeMap",[42.5,126],5,cities.map(c=>({lat:c.lat,lng:c.lng,name:c.name,note:c.dates})));
+if(routeMap){
+ L.polyline(cities.map(c=>[c.lat,c.lng]),{weight:4,opacity:.72,dashArray:"10 8",color:"#1f5fae"}).addTo(routeMap);
+ routeMap.fitBounds(cities.map(c=>[c.lat,c.lng]),{padding:[30,30]});
+}else{
+ document.getElementById("routeMap").style.display="none";
+ document.getElementById("routeMapFallback").style.display="block";
+}
+const cityGrid=document.getElementById("cityGrid");
+cities.forEach(c=>{
+ const block=document.createElement("section");
+ block.className="city-block";
+ block.innerHTML='<h3>📍 '+c.name+'</h3><div class="day-meta">'+c.dates+'</div><div id="map-'+c.slug+'" class="map small" style="margin-top:12px"></div><div class="point-list" id="points-'+c.slug+'"></div>';
+ cityGrid.appendChild(block);
+ const cm=makeMap("map-"+c.slug,[c.lat,c.lng],11,[{lat:c.lat,lng:c.lng,name:c.name,note:c.dates}]);
+ const list=block.querySelector("#points-"+c.slug);
+ const hotels=hotelData[c.slug]||[];
+ if(hotels.length){
+   hotels.forEach(h=>{
+     const p=document.createElement("div");p.className="point";
+     p.innerHTML="<strong>🏨 "+h.name+"</strong><span>"+h.people+"</span><div class='action-row'><a class='btn' target='_blank' rel='noopener' href='"+amapSearch(h.name)+"'>高德打开</a></div>";
+     list.appendChild(p);
+   });
+ }else{
+   const e=document.createElement("div");e.className="empty";e.textContent="酒店 / 车站 / 景点 / 餐厅：待添加点位";list.appendChild(e);
+ }
+ if(!cm){
+   const m=block.querySelector(".map");m.style.display="none";
+   const e=document.createElement("div");e.className="map-fallback";e.style.display="block";e.textContent="地图暂时没有加载成功。";block.insertBefore(e,list);
+ }
+});
+</script>
+</body>
+</html>
