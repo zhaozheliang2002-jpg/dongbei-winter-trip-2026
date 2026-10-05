@@ -182,9 +182,9 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
   <div class="timeline">
     <div class="day-card"><div class="day-date">12/8</div><div><div class="day-city">宁波 → 大连</div><div class="day-meta">✈️ 08:10 宁波栎社 T2 起飞 · 东方航空 MU6559<br>10:10 抵达大连周水子国际机场<br><strong>详细线路见下方“大连”城市安排。</strong></div></div></div>
     <div class="day-card"><div class="day-date">12/9</div><div><div class="day-city">大连市区游玩</div><div class="day-meta">详细线路见下方“大连”城市安排。</div></div></div>
-    <div class="day-card transfer"><div class="day-date">12/10</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">大连 → 丹东</div><div class="day-meta">高铁约 2.5 小时，傍晚到丹东休息。</div></div></div>
-    <div class="day-card"><div class="day-date">12/11</div><div><div class="day-city">丹东游玩</div><div class="day-meta">鸭绿江断桥、江边。</div></div></div>
-    <div class="day-card transfer"><div class="day-date">12/12</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">丹东 → 沈阳</div><div class="day-meta">高铁约 2.5 小时。</div></div></div>
+    <div class="day-card transfer"><div class="day-date">12/10</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">大连 → 丹东</div><div class="day-meta">从大连站坐动车前往丹东；中午抵达后入住并午休，下午鸭绿江断桥和江边散步，晚上丹东高丽饭店。</div></div></div>
+    <div class="day-card"><div class="day-date">12/11</div><div><div class="day-city">丹东游玩</div><div class="day-meta">界河游船 → 午饭 → 回酒店午休 → 锦江山公园 → 安东老街 → 月亮岛江边观景。</div></div></div>
+    <div class="day-card transfer"><div class="day-date">12/12</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">丹东 → 沈阳</div><div class="day-meta">早上从丹东站坐动车前往沈阳。</div></div></div>
     <div class="day-card"><div class="day-date">12/13</div><div><div class="day-city">沈阳游玩</div><div class="day-meta">老工业、铁路相关景点。</div></div></div>
     <div class="day-card transfer"><div class="day-date">12/14</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">沈阳 → 长春</div><div class="day-meta">高铁约 1.5 小时。</div></div></div>
     <div class="day-card transfer"><div class="day-date">12/15</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">长春 → 长白山（二道白河）</div><div class="day-meta">抵达长白山，入住休整。</div></div></div>
@@ -549,7 +549,91 @@ const cityPointData = {
     }
   ],
 
-  dandong: [],
+  dandong: [
+    {
+      id:"dandong-station",
+      name:"丹东站",
+      type:"airport",
+      label:"火车站",
+      lat:40.122529,
+      lng:124.381783
+    },
+    {
+      id:"dandong-atour",
+      name:"丹东火车站鸭绿江断桥亚朵酒店",
+      type:"hotel",
+      label:"住宿",
+      lat:40.110900,
+      lng:124.382600
+    },
+    {
+      id:"dandong-homeinn",
+      name:"如家精选酒店（丹东鸭绿江大桥断桥景区火车站店）",
+      type:"hotel",
+      label:"住宿",
+      lat:40.114601,
+      lng:124.383348
+    },
+    {
+      id:"brokenbridge",
+      name:"鸭绿江断桥",
+      type:"attraction",
+      label:"景点",
+      lat:40.117135,
+      lng:124.388029,
+      image:"https://www.yljzc.com/up_f/image/20230403/104716_4566.jpg",
+      desc:"丹东代表性历史景点，沿江平地慢走，也能看对岸。"
+    },
+    {
+      id:"koryo",
+      name:"丹东高丽饭店",
+      type:"restaurant",
+      label:"晚餐",
+      lat:40.116650,
+      lng:124.386800,
+      desc:"12/10 晚餐，安排朝鲜风味餐，室内用餐休息。"
+    },
+    {
+      id:"cruise",
+      name:"鸭绿江中朝界河游船（1号观光码头）",
+      type:"attraction",
+      label:"景点",
+      lat:40.116222,
+      lng:124.387316,
+      image:"https://dimg04.c-ctrip.com/images/1lo3s12000ev1l9zcE8DF.jpg",
+      desc:"上午乘船看鸭绿江两岸，甲板拍照后及时回船舱避风。"
+    },
+    {
+      id:"jinjiang",
+      name:"锦江山公园",
+      type:"attraction",
+      label:"景点",
+      lat:40.132317,
+      lng:124.369748,
+      image:"https://dimg04.c-ctrip.com/images/0106a12000jpytfa8E99F_W_750_0.jpg?proc=autoorient",
+      desc:"慢走主步道登高看丹东城区和鸭绿江，不强求登顶。"
+    },
+    {
+      id:"andongstreet",
+      name:"安东老街",
+      type:"attraction",
+      label:"景点",
+      lat:40.103738,
+      lng:124.356825,
+      image:"https://assets.st-note.com/img/1724569253992-zj4S2s3jQW.jpg?width=1200",
+      desc:"室内老街，适合傍晚避寒、休息和慢逛。"
+    },
+    {
+      id:"moonisland",
+      name:"月亮岛",
+      type:"attraction",
+      label:"景点",
+      lat:40.092266,
+      lng:124.361206,
+      image:"https://youimg1.c-ctrip.com/target/100c0y000000m9hssA8BA.jpg",
+      desc:"冬季不安排露天夜市，只做江边观景和看大桥夜景。"
+    }
+  ],
 
   shenyang: [
     {
@@ -589,6 +673,18 @@ const cityRouteData = {
       title:"12/9 浏览线路与安排",
       text:"莲花山看海 → 大连熟食品交易中心 → 三寰西南路综合批发市场吃饭 → 回酒店睡午觉 → 从酒店出发 → 中山广场 → 大连中山广场近代建筑群 → 大连日本宪兵队本部旧址 → 南山街 → 吃晚饭 → 星海广场 → 回酒店",
       pointIds:["lianhuashan","cookedfood","sanhuanmarket","atour","zhongshan","modernbuildings","gendarmerie","nanshan","xinghai","atour"]
+    }
+  ],
+  dandong: [
+    {
+      title:"12/10 浏览线路与安排",
+      text:"大连住处 → 大连站坐动车 → 丹东站 → 酒店办理入住 → 房间午休 → 热饮点心 → 鸭绿江断桥 + 江边散步 → 丹东高丽饭店晚餐 → 回酒店休息",
+      pointIds:["dandong-station","dandong-atour","brokenbridge","koryo","dandong-atour"]
+    },
+    {
+      title:"12/11 浏览线路与安排",
+      text:"08:30 起床早餐 → 09:00 鸭绿江中朝界河游船 → 酒店附近午饭 → 12:00–14:00 回房间午休 → 14:30 锦江山公园 → 17:00 安东老街 → 傍晚月亮岛江边观景 → 回酒店休息",
+      pointIds:["dandong-atour","cruise","dandong-atour","jinjiang","andongstreet","moonisland","dandong-atour"]
     }
   ]
 };
@@ -691,9 +787,19 @@ function makeMap(id, center, zoom, isStatic=false) {
 }
 
 function addMarker(map, point) {
+  let icon = mapIcons[point.type];
+  if (point.label === "火车站" && window.L) {
+    icon = L.divIcon({
+      className:"custom-map-icon",
+      html:'<div style="font-size:28px;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))">🚄</div>',
+      iconSize:[34,34],
+      iconAnchor:[17,28]
+    });
+  }
+
   const marker = L.marker(
     [point.lat, point.lng],
-    mapIcons[point.type] ? {icon:mapIcons[point.type]} : {}
+    icon ? {icon} : {}
   ).addTo(map);
 
   return marker;
@@ -939,6 +1045,87 @@ cities.forEach(city => {
 
     drawStaticRouteMap("map-dalian-1208", points, day8.pointIds, "#1f5fae");
     drawStaticRouteMap("map-dalian-1209", points, day9.pointIds, "#d91e36");
+    return;
+  }
+
+  if (city.slug === "dandong") {
+    const day10 = routeEntries[0];
+    const day11 = routeEntries[1];
+
+    block.innerHTML = `
+      <h3>📍 丹东</h3>
+      <div class="day-meta">${city.dates}</div>
+
+      <div id="map-dandong-overview" class="map small" style="margin-top:12px"></div>
+      <div class="map-legend">
+        <span>🚄 火车站</span>
+        <span>🏨 住宿</span>
+        <span>📍 景点</span>
+        <span>🍽️ 餐馆</span>
+        <span style="color:#1f5fae">━ 12/10</span>
+        <span style="color:#d91e36">━ 12/11</span>
+      </div>
+      <div class="city-overview-intro">
+        丹东住两晚。12/10 从大连站坐动车抵达，午休后走鸭绿江断桥和江边；12/11 上午坐界河游船，中午回房休息，下午再去锦江山、安东老街和月亮岛。
+      </div>
+
+      <div class="day-map-block">
+        <div class="day-map-title">12/10 地图</div>
+        <div id="map-dandong-1210" class="map small"></div>
+        <div class="day-map-note" style="color:#1f5fae;font-weight:800">蓝线：12/10 当天线路</div>
+      </div>
+
+      <div class="route-plan">
+        ${renderRouteEntries([day10], points)}
+      </div>
+
+      <div class="day-map-block">
+        <div class="day-map-title">12/11 地图</div>
+        <div id="map-dandong-1211" class="map small"></div>
+        <div class="day-map-note" style="color:#d91e36;font-weight:800">红线：12/11 当天线路</div>
+      </div>
+
+      <div class="route-plan">
+        ${renderRouteEntries([day11], points)}
+      </div>
+
+      <div class="city-overview-intro" style="margin-top:22px">
+        <strong>12/12 早上：</strong>从丹东站坐动车前往沈阳。
+      </div>
+    `;
+
+    cityGrid.appendChild(block);
+
+    const overviewMap = makeMap("map-dandong-overview", [city.lat,city.lng], 12, true);
+    if (overviewMap) {
+      points.forEach(p => addMarker(overviewMap,p));
+      const byId = Object.fromEntries(points.map(p => [p.id,p]));
+
+      [
+        {entry:day10,color:"#1f5fae",weight:5,dashArray:"0"},
+        {entry:day11,color:"#d91e36",weight:7,dashArray:"12 8"}
+      ].forEach(({entry,color,weight,dashArray}) => {
+        const routePoints = (entry.pointIds || []).map(id => byId[id]).filter(Boolean);
+        if (routePoints.length > 1) {
+          L.polyline(routePoints.map(p => [p.lat,p.lng]), {
+            weight,
+            opacity:.92,
+            dashArray,
+            color
+          }).addTo(overviewMap);
+        }
+      });
+
+      if (points.length) {
+        overviewMap.fitBounds(points.map(p => [p.lat,p.lng]), {
+          padding:[38,38],
+          maxZoom:14
+        });
+      }
+    }
+
+    drawStaticRouteMap("map-dandong-1210", points, day10.pointIds, "#1f5fae");
+    drawStaticRouteMap("map-dandong-1211", points, day11.pointIds, "#d91e36");
     return;
   }
 
