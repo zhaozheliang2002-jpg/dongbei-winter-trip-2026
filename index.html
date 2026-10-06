@@ -141,7 +141,6 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
       <span class="route-city">大连</span><span class="route-arrow">→</span>
       <span class="route-city">丹东</span><span class="route-arrow">→</span>
       <span class="route-city">沈阳</span><span class="route-arrow">→</span>
-      <span class="route-city">长春</span><span class="route-arrow">→</span>
       <span class="route-city">长白山</span><span class="route-arrow">→</span>
       <span class="route-city">延吉</span><span class="route-arrow">→</span>
       <span class="route-city">珲春</span><span class="route-arrow">→</span>
@@ -162,8 +161,8 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
       <tr><td>12/11</td><td>丹东游玩</td><td>丹东</td></tr>
       <tr><td>12/12</td><td>丹东 → 沈阳</td><td>沈阳</td></tr>
       <tr><td>12/13</td><td>沈阳游玩</td><td>沈阳</td></tr>
-      <tr><td>12/14</td><td>沈阳 → 长春</td><td>长春</td></tr>
-      <tr><td>12/15</td><td>长春 → 长白山（二道白河）</td><td>长白山（二道白河）</td></tr>
+      <tr><td>12/14</td><td>沈阳游玩</td><td>沈阳</td></tr>
+      <tr><td>12/15</td><td>沈阳 → 长白山（二道白河）</td><td>长白山（二道白河）</td></tr>
       <tr><td>12/16</td><td>长白山游玩</td><td>长白山（二道白河）</td></tr>
       <tr><td>12/17</td><td>长白山 → 延吉</td><td>延吉</td></tr>
       <tr><td>12/18</td><td>延吉 → 珲春</td><td>珲春</td></tr>
@@ -186,8 +185,8 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
     <div class="day-card"><div class="day-date">12/11</div><div><div class="day-city">丹东游玩</div><div class="day-meta">界河游船 → 午饭 → 回酒店午休 → 锦江山公园 → 安东老街 → 月亮岛江边观景。</div></div></div>
     <div class="day-card transfer"><div class="day-date">12/12</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">丹东 → 沈阳</div><div class="day-meta">早上从丹东站坐动车前往沈阳。</div></div></div>
     <div class="day-card"><div class="day-date">12/13</div><div><div class="day-city">沈阳游玩</div><div class="day-meta">老工业、铁路相关景点。</div></div></div>
-    <div class="day-card transfer"><div class="day-date">12/14</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">沈阳 → 长春</div><div class="day-meta">高铁约 1.5 小时。</div></div></div>
-    <div class="day-card transfer"><div class="day-date">12/15</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">长春 → 长白山（二道白河）</div><div class="day-meta">抵达长白山，入住休整。</div></div></div>
+    <div class="day-card"><div class="day-date">12/14</div><div><div class="day-city">沈阳游玩</div><div class="day-meta">全天沈阳市内安排，具体线路待补充。</div></div></div>
+    <div class="day-card transfer"><div class="day-date">12/15</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">沈阳 → 长白山（二道白河）</div><div class="day-meta">前往长白山（二道白河），抵达后入住休整。</div></div></div>
     <div class="day-card"><div class="day-date">12/16</div><div><div class="day-city">长白山游玩</div><div class="day-meta">长白山第一天游览。</div></div></div>
     <div class="day-card transfer"><div class="day-date">12/17</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">长白山 → 延吉</div><div class="day-meta">离开长白山，前往延吉。</div></div></div>
     <div class="day-card transfer"><div class="day-date">12/18</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">延吉 → 珲春</div><div class="day-meta">高铁约 40 分钟，抵达珲春后休整。</div></div></div>
@@ -212,7 +211,7 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
       <div class="hotel-group" style="margin-top:14px"><div class="people-box"><span class="n">1人</span></div><div><div class="hotel-name">如家精选酒店（丹东鸭绿江大桥断桥景区火车站店）</div></div></div>
     </div>
     <div class="card">
-      <h3 style="font-size:28px;margin-top:0">🏨 沈阳 · 12/12–12/14</h3>
+      <h3 style="font-size:28px;margin-top:0">🏨 沈阳 · 12/12–12/15</h3>
       <div class="hotel-group"><div class="people-box"><span class="n">4人</span></div><div><div class="hotel-name">沈阳迎宾馆</div></div></div>
       <div class="hotel-group" style="margin-top:14px"><div class="people-box"><span class="n">1人</span></div><div><div class="hotel-name">如家酒店（沈阳市府大路西塔北市场店）</div></div></div>
     </div>
@@ -375,8 +374,7 @@ document.head.appendChild(extraStyle);
 const cities = [
   {name:"大连", lat:38.9140, lng:121.6147, dates:"12/8–12/10", slug:"dalian"},
   {name:"丹东", lat:40.1290, lng:124.3947, dates:"12/10–12/12", slug:"dandong"},
-  {name:"沈阳", lat:41.8057, lng:123.4315, dates:"12/12–12/14", slug:"shenyang"},
-  {name:"长春", lat:43.8171, lng:125.3235, dates:"12/14–12/15", slug:"changchun"},
+  {name:"沈阳", lat:41.8057, lng:123.4315, dates:"12/12–12/15", slug:"shenyang"},
   {name:"长白山", lat:42.0062, lng:128.0553, dates:"12/15–12/17", slug:"changbaishan"},
   {name:"延吉", lat:42.8913, lng:129.5089, dates:"12/17–12/18", slug:"yanji"},
   {name:"珲春", lat:42.8624, lng:130.3658, dates:"12/18–12/20", slug:"hunchun"},
@@ -655,7 +653,6 @@ const cityPointData = {
     }
   ],
 
-  changchun: [],
   changbaishan: [],
   yanji: [],
   hunchun: [],
