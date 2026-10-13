@@ -666,6 +666,7 @@ const cityPointData = {
       label:"午餐",
       lat:41.796720,
       lng:123.424965,
+      image:"https://store.is.autonavi.com/showpic/a12d5cb1e27272ad0000002483166384?type=pic",
       desc:"12/12 午餐。以辽菜和饺子为主，点菜时可要求口味清淡一些。"
     },
     {
@@ -675,6 +676,7 @@ const cityPointData = {
       label:"景点",
       lat:41.805083,
       lng:123.422391,
+      image:"https://newbbs-fd.zol-img.com.cn/t_s1200x5000/g5/M00/03/07/ChMkJlq8WeWIVnNRABVnK2Rcz9UAAnIawNUUksAFWdD871.jpg",
       desc:"12/12 午休后简单逛一逛，不安排长时间步行。"
     },
     {
@@ -684,6 +686,7 @@ const cityPointData = {
       label:"街区 / 晚餐",
       lat:41.802661,
       lng:123.402505,
+      image:"https://dimg04.c-ctrip.com/images/0100u12000mi29klkB439_W_750_0.jpg?proc=autoorient",
       desc:"12/12 傍晚到西塔，晚餐安排韩餐。"
     },
     {
@@ -693,6 +696,7 @@ const cityPointData = {
       label:"景点",
       lat:41.795307,
       lng:123.449641,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/%E6%B2%88%E9%98%B3%E6%95%85%E5%AE%AB%E5%A4%A7%E6%94%BF%E6%AE%BF.jpg",
       desc:"12/13 主要游览点之一。"
     },
     {
@@ -702,6 +706,7 @@ const cityPointData = {
       label:"景点",
       lat:41.791325,
       lng:123.451299,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/%E5%BC%A0%E6%B0%8F%E5%B8%85%E5%BA%9C.jpg",
       desc:"12/13 与沈阳故宫安排在同一天。"
     },
     {
@@ -711,6 +716,7 @@ const cityPointData = {
       label:"早市",
       lat:41.796743,
       lng:123.408418,
+      image:"https://ak-d.tripcdn.com/images/1lo6u12000pcb00qc6693_D_750_500_R5.png_.webp?_fr=wc&proc=source%2Ftrip",
       desc:"12/14 早上逛早市，之后前往中国工业博物馆。"
     },
     {
@@ -720,6 +726,7 @@ const cityPointData = {
       label:"博物馆",
       lat:41.819076,
       lng:123.349135,
+      image:"https://youimg1.c-ctrip.com/target/10061b0000019yho75BD9.jpg",
       desc:"12/14 工业主题的主要行程。"
     }
   ],
@@ -955,7 +962,7 @@ function getDisplayStops(item, byId) {
     }
 
     const p = byId[id];
-    if (p && p.type === "attraction") result.push(p);
+    if (p && ["attraction","restaurant"].includes(p.type)) result.push(p);
   });
 
   return result;
@@ -1000,7 +1007,7 @@ function drawStaticRouteMap(mapId, points, pointIds, color) {
 }
 
 function renderRouteStop(point) {
-  if (!point || point.type !== "attraction") return "";
+  if (!point || !["attraction","restaurant"].includes(point.type)) return "";
   return `
     <article class="route-stop">
       ${point.image ? `<img src="${point.image}" alt="${point.name}" loading="lazy">` : ""}
