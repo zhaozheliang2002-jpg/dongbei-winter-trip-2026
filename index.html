@@ -160,8 +160,8 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
       <tr><td>12/10</td><td>大连站 → 丹东动车</td><td>丹东</td></tr>
       <tr><td>12/11</td><td>丹东全天游玩</td><td>丹东</td></tr>
       <tr><td>12/12</td><td>丹东 → 沈阳（高铁）</td><td>沈阳</td></tr>
-      <tr><td>12/13</td><td>沈阳游玩（铁路、老工业点位）</td><td>沈阳</td></tr>
-      <tr><td>12/14</td><td>沈阳铁西深度工业主题</td><td>沈阳</td></tr>
+      <tr><td>12/13</td><td>沈阳故宫 + 张氏帅府</td><td>沈阳</td></tr>
+      <tr><td>12/14</td><td>八一早市 + 中国工业博物馆</td><td>沈阳</td></tr>
       <tr><td>12/15</td><td>沈阳 → 敦化高铁，包车前往二道白河</td><td>长白山</td></tr>
       <tr><td>12/16</td><td>长白山北坡游览</td><td>长白山</td></tr>
       <tr><td>12/17</td><td>二道白河 → 哈尔滨</td><td>哈尔滨</td></tr>
@@ -183,9 +183,9 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
     <div class="day-card"><div class="day-date">12/9</div><div><div class="day-city">大连市区游玩</div><div class="day-meta">大连市内慢逛。详细线路见下方“大连”城市安排。</div></div></div>
     <div class="day-card transfer"><div class="day-date">12/10</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">大连站 → 丹东</div><div class="day-meta">中午抵达酒店午休；下午鸭绿江断桥；晚餐平壤高丽饭店。</div></div></div>
     <div class="day-card"><div class="day-date">12/11</div><div><div class="day-city">丹东全天游玩</div><div class="day-meta">界河游船 → 酒店附近午饭 → 回房间午休 → 锦江山公园 → 安东老街 → 月亮岛江边观景。</div></div></div>
-    <div class="day-card transfer"><div class="day-date">12/12</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">丹东 → 沈阳</div><div class="day-meta">高铁前往沈阳，抵达后休整。</div></div></div>
-    <div class="day-card"><div class="day-date">12/13</div><div><div class="day-city">沈阳游玩（铁路、老工业点位）</div><div class="day-meta">老厂房、铁路怀旧景点；中午回酒店午休。</div></div></div>
-    <div class="day-card"><div class="day-date">12/14</div><div><div class="day-city">沈阳铁西深度工业主题</div><div class="day-meta">中国工业博物馆、红梅文创园；不换酒店，中午午休。</div></div></div>
+    <div class="day-card transfer"><div class="day-date">12/12</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">丹东 → 沈阳</div><div class="day-meta">抵达入住 → 王厚元饺子（高登店）午饭 → 回酒店午休 → 皇寺 → 西塔韩餐 → 洗浴搓澡 → 回酒店休息。</div></div></div>
+    <div class="day-card"><div class="day-date">12/13</div><div><div class="day-city">沈阳故宫 + 张氏帅府</div><div class="day-meta">沈阳故宫、张氏帅府；中午回酒店午休。</div></div></div>
+    <div class="day-card"><div class="day-date">12/14</div><div><div class="day-city">沈阳游玩</div><div class="day-meta">八一早市 → 中国工业博物馆；中午回酒店午休。</div></div></div>
     <div class="day-card transfer"><div class="day-date">12/15</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">沈阳 → 敦化 → 二道白河</div><div class="day-meta">沈阳坐高铁到敦化，再包车前往二道白河；入住休整。</div></div></div>
     <div class="day-card"><div class="day-date">12/16</div><div><div class="day-city">长白山北坡游览</div><div class="day-meta">长白山游玩第一天；二道白河共住2晚。</div></div></div>
     <div class="day-card transfer"><div class="day-date">12/17</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">二道白河 → 哈尔滨</div><div class="day-meta">从二道白河直接前往哈尔滨；傍晚抵达后休整。</div></div></div>
@@ -649,8 +649,7 @@ const cityPointData = {
       type:"hotel",
       label:"住宿",
       lat:41.799871,
-      lng:123.421573,
-      labelDir:"top"
+      lng:123.421573
     },
     {
       id:"shenyang-homeinn",
@@ -659,6 +658,69 @@ const cityPointData = {
       label:"住宿",
       lat:41.801281,
       lng:123.414683
+    },
+    {
+      id:"wanghouyuan",
+      name:"王厚元饺子（高登店）",
+      type:"restaurant",
+      label:"午餐",
+      lat:41.796720,
+      lng:123.424965,
+      desc:"12/12 午餐。以辽菜和饺子为主，点菜时可要求口味清淡一些。"
+    },
+    {
+      id:"huangsi",
+      name:"皇寺",
+      type:"attraction",
+      label:"景点",
+      lat:41.805083,
+      lng:123.422391,
+      desc:"12/12 午休后简单逛一逛，不安排长时间步行。"
+    },
+    {
+      id:"xita",
+      name:"西塔",
+      type:"attraction",
+      label:"街区 / 晚餐",
+      lat:41.802661,
+      lng:123.402505,
+      desc:"12/12 傍晚到西塔，晚餐安排韩餐。"
+    },
+    {
+      id:"shenyang-palace",
+      name:"沈阳故宫",
+      type:"attraction",
+      label:"景点",
+      lat:41.795307,
+      lng:123.449641,
+      desc:"12/13 主要游览点之一。"
+    },
+    {
+      id:"zhang-mansion",
+      name:"张氏帅府",
+      type:"attraction",
+      label:"景点",
+      lat:41.791325,
+      lng:123.451299,
+      desc:"12/13 与沈阳故宫安排在同一天。"
+    },
+    {
+      id:"bayi-market",
+      name:"八一早市",
+      type:"attraction",
+      label:"早市",
+      lat:41.796743,
+      lng:123.408418,
+      desc:"12/14 早上逛早市，之后前往中国工业博物馆。"
+    },
+    {
+      id:"industrial-museum",
+      name:"中国工业博物馆",
+      type:"attraction",
+      label:"博物馆",
+      lat:41.819076,
+      lng:123.349135,
+      desc:"12/14 工业主题的主要行程。"
     }
   ],
 
@@ -690,6 +752,28 @@ const cityRouteData = {
       title:"12/11 浏览线路与安排",
       text:"起床早餐 → 鸭绿江中朝界河游船 → 酒店附近午饭 → 回房间午休 → 锦江山公园 → 安东老街 → 月亮岛江边观景 → 回酒店休息",
       pointIds:["dandong-atour","cruise","dandong-atour","jinjiang","andongstreet","moonisland","dandong-atour"]
+    }
+  ],
+  shenyang: [
+    {
+      title:"12/12 浏览线路与安排",
+      text:"丹东 → 沈阳 → 酒店办理入住放行李 → 王厚元饺子（高登店）午饭 → 回酒店午休 → 皇寺简单逛 → 西塔 → 晚餐吃韩餐 → 洗浴搓澡 → 回酒店休息",
+      pointIds:["shenyang-guesthouse","wanghouyuan","shenyang-guesthouse","huangsi","xita","shenyang-guesthouse"]
+    },
+    {
+      title:"12/13 浏览线路与安排",
+      text:"沈阳故宫 + 张氏帅府 → 中午回酒店午休",
+      pointIds:["shenyang-guesthouse","shenyang-palace","zhang-mansion","shenyang-guesthouse"]
+    },
+    {
+      title:"12/14 浏览线路与安排",
+      text:"八一早市 → 中国工业博物馆 → 中午回酒店午休",
+      pointIds:["shenyang-guesthouse","bayi-market","industrial-museum","shenyang-guesthouse"]
+    },
+    {
+      title:"12/15 行程",
+      text:"纯赶路，不安排景点；从沈阳坐高铁前往长白山。",
+      pointIds:["shenyang-guesthouse"]
     }
   ]
 };
@@ -878,7 +962,9 @@ function getDisplayStops(item, byId) {
 }
 
 function drawStaticRouteMap(mapId, points, pointIds, color) {
-  const map = makeMap(mapId, [38.9140,121.6147], 12, true);
+  const routeSeed = (pointIds || []).map(id => points.find(p => p.id === id)).find(Boolean);
+  const center = routeSeed ? [routeSeed.lat, routeSeed.lng] : [38.9140,121.6147];
+  const map = makeMap(mapId, center, 12, true);
   if (!map) return null;
 
   const byId = Object.fromEntries(points.map(p => [p.id,p]));
@@ -1128,6 +1214,85 @@ cities.forEach(city => {
 
     drawStaticRouteMap("map-dandong-1210", points, day10.pointIds, "#1f5fae");
     drawStaticRouteMap("map-dandong-1211", points, day11.pointIds, "#d91e36");
+    return;
+  }
+
+  if (city.slug === "shenyang") {
+    const day12 = routeEntries[0];
+    const day13 = routeEntries[1];
+    const day14 = routeEntries[2];
+    const day15 = routeEntries[3];
+
+    block.innerHTML = `
+      <h3>📍 沈阳</h3>
+      <div class="day-meta">${city.dates}</div>
+
+      <div id="map-shenyang-overview" class="map small" style="margin-top:12px"></div>
+      <div class="map-legend">
+        <span>🏨 住宿</span>
+        <span>📍 景点</span>
+        <span>🍽️ 餐馆</span>
+        <span style="color:#1f5fae">━ 12/12</span>
+        <span style="color:#d91e36">━ 12/13</span>
+        <span style="color:#217a53">━ 12/14</span>
+      </div>
+      <div class="city-overview-intro">
+        沈阳连住3晚。12/12 抵达后午休，下午皇寺—西塔，晚餐后安排洗浴搓澡；12/13 沈阳故宫和张氏帅府；12/14 八一早市和中国工业博物馆。每天中午都保留回酒店午休。
+      </div>
+
+      <div class="day-map-block">
+        <div class="day-map-title">12/12 地图</div>
+        <div id="map-shenyang-1212" class="map small"></div>
+      </div>
+      <div class="route-plan">${renderRouteEntries([day12], points)}</div>
+
+      <div class="day-map-block">
+        <div class="day-map-title">12/13 地图</div>
+        <div id="map-shenyang-1213" class="map small"></div>
+      </div>
+      <div class="route-plan">${renderRouteEntries([day13], points)}</div>
+
+      <div class="day-map-block">
+        <div class="day-map-title">12/14 地图</div>
+        <div id="map-shenyang-1214" class="map small"></div>
+      </div>
+      <div class="route-plan">${renderRouteEntries([day14], points)}</div>
+
+      <div class="route-plan">${renderRouteEntries([day15], points)}</div>
+    `;
+
+    cityGrid.appendChild(block);
+
+    const overviewMap = makeMap("map-shenyang-overview", [city.lat,city.lng], 11, true);
+    if (overviewMap) {
+      points.forEach(p => addMarker(overviewMap,p));
+      const byId = Object.fromEntries(points.map(p => [p.id,p]));
+      [
+        {entry:day12,color:"#1f5fae",weight:5,dashArray:"0"},
+        {entry:day13,color:"#d91e36",weight:6,dashArray:"12 8"},
+        {entry:day14,color:"#217a53",weight:6,dashArray:"6 7"}
+      ].forEach(({entry,color,weight,dashArray}) => {
+        const routePoints = (entry.pointIds || []).map(id => byId[id]).filter(Boolean);
+        if (routePoints.length > 1) {
+          L.polyline(routePoints.map(p => [p.lat,p.lng]), {
+            weight,
+            opacity:.92,
+            dashArray,
+            color
+          }).addTo(overviewMap);
+        }
+      });
+      if (points.length) {
+        overviewMap.fitBounds(points.map(p => [p.lat,p.lng]), {
+          padding:[38,38],
+          maxZoom:13
+        });
+      }
+    }
+
+    drawStaticRouteMap("map-shenyang-1212", points, day12.pointIds, "#1f5fae");
+    drawStaticRouteMap("map-shenyang-1213", points, day13.pointIds, "#d91e36");
+    drawStaticRouteMap("map-shenyang-1214", points, day14.pointIds, "#217a53");
     return;
   }
 
