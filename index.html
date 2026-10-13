@@ -183,9 +183,9 @@ footer{padding:34px 0;color:var(--muted);font-size:16px;text-align:center}
     <div class="day-card"><div class="day-date">12/9</div><div><div class="day-city">大连市区游玩</div><div class="day-meta">大连市内慢逛。详细线路见下方“大连”城市安排。</div></div></div>
     <div class="day-card transfer"><div class="day-date">12/10</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">大连站 → 丹东</div><div class="day-meta">中午抵达酒店午休；下午鸭绿江断桥；晚餐平壤高丽饭店。</div></div></div>
     <div class="day-card"><div class="day-date">12/11</div><div><div class="day-city">丹东全天游玩</div><div class="day-meta">界河游船 → 酒店附近午饭 → 回房间午休 → 锦江山公园 → 安东老街 → 月亮岛江边观景。</div></div></div>
-    <div class="day-card transfer"><div class="day-date">12/12</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">丹东 → 沈阳</div><div class="day-meta">抵达入住 → 王厚元饺子（高登店）午饭 → 回酒店午休 → 皇寺 → 西塔韩餐 → 洗浴搓澡 → 回酒店休息。</div></div></div>
+    <div class="day-card transfer"><div class="day-date">12/12</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">丹东 → 沈阳</div><div class="day-meta">抵达入住 → 王厚元饺子（高登店）午饭 → 回酒店午休 → 皇寺 → 西塔韩餐 → 回酒店休息。</div></div></div>
     <div class="day-card"><div class="day-date">12/13</div><div><div class="day-city">沈阳故宫 + 张氏帅府</div><div class="day-meta">沈阳故宫、张氏帅府；中午回酒店午休。</div></div></div>
-    <div class="day-card"><div class="day-date">12/14</div><div><div class="day-city">沈阳游玩</div><div class="day-meta">八一早市 → 中国工业博物馆；中午回酒店午休。</div></div></div>
+    <div class="day-card"><div class="day-date">12/14</div><div><div class="day-city">沈阳游玩</div><div class="day-meta">八一早市 → 中国工业博物馆 → 水之道（白塔店）搓澡 → 回酒店休息。</div></div></div>
     <div class="day-card transfer"><div class="day-date">12/15</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">沈阳 → 敦化 → 二道白河</div><div class="day-meta">沈阳坐高铁到敦化，再包车前往二道白河；入住休整。</div></div></div>
     <div class="day-card"><div class="day-date">12/16</div><div><div class="day-city">长白山北坡游览</div><div class="day-meta">长白山游玩第一天；二道白河共住2晚。</div></div></div>
     <div class="day-card transfer"><div class="day-date">12/17</div><div><span class="transfer-tag">🚄 转场</span><div class="day-city">二道白河 → 哈尔滨</div><div class="day-meta">从二道白河直接前往哈尔滨；傍晚抵达后休整。</div></div></div>
@@ -728,6 +728,16 @@ const cityPointData = {
       lng:123.349135,
       image:"https://commons.wikimedia.org/wiki/Special:FilePath/Interior%20of%20China%20Industrial%20Museum%20in%20Shenyang.jpg",
       desc:"中国工业博物馆保留了老工业生产空间的感觉，馆内能看到大型机床、铸造设备和工业实物。这里最值得看的就是巨大的厂房尺度和真实机器，比单纯看展板更有冲击力。"
+    },
+    {
+      id:"shuizhidao",
+      name:"水之道（白塔店）",
+      type:"attraction",
+      label:"洗浴 / 搓澡",
+      lat:41.689757,
+      lng:123.417019,
+      image:"https://ak-d.tripcdn.com/images/1mi6t12000db325547AD1_W_640_0_R5_Q80.jpg?proc=source%2Ftrip",
+      desc:"12/14 参观中国工业博物馆之后去水之道体验东北洗浴和搓澡。店内有泡浴区、休息区和可以躺着休息的位置，安排在当天后半段，结束后以休息为主。"
     }
   ],
 
@@ -775,7 +785,7 @@ const cityRouteData = {
   shenyang: [
     {
       title:"12/12 浏览线路与安排",
-      text:"丹东 → 沈阳 → 酒店办理入住放行李 → 王厚元饺子（高登店）午饭 → 回酒店午休 → 皇寺简单逛 → 西塔 → 晚餐吃韩餐 → 洗浴搓澡 → 回酒店休息",
+      text:"丹东 → 沈阳 → 酒店办理入住放行李 → 王厚元饺子（高登店）午饭 → 回酒店午休 → 皇寺简单逛 → 西塔 → 晚餐吃韩餐 → 回酒店休息",
       pointIds:["shenyang-guesthouse","wanghouyuan","shenyang-guesthouse","huangsi","xita","shenyang-guesthouse"]
     },
     {
@@ -785,8 +795,8 @@ const cityRouteData = {
     },
     {
       title:"12/14 浏览线路与安排",
-      text:"八一早市 → 中国工业博物馆 → 中午回酒店午休",
-      pointIds:["shenyang-guesthouse","bayi-market","industrial-museum","shenyang-guesthouse"]
+      text:"八一早市 → 中国工业博物馆 → 水之道（白塔店）搓澡 → 回酒店休息",
+      pointIds:["shenyang-guesthouse","bayi-market","industrial-museum","shuizhidao","shenyang-guesthouse"]
     },
     {
       title:"12/15 行程",
@@ -1262,7 +1272,7 @@ cities.forEach(city => {
         <span style="color:#217a53">━ 12/14</span>
       </div>
       <div class="city-overview-intro">
-        沈阳连住3晚。12/12 抵达后午休，下午皇寺—西塔，晚餐后安排洗浴搓澡；12/13 沈阳故宫和张氏帅府；12/14 八一早市和中国工业博物馆。每天中午都保留回酒店午休。
+        沈阳连住3晚。12/12 抵达后午休，下午皇寺—西塔，晚餐后回酒店休息；12/13 沈阳故宫和张氏帅府；12/14 八一早市、中国工业博物馆，之后去水之道（白塔店）搓澡。
       </div>
 
       <div class="day-map-block">
