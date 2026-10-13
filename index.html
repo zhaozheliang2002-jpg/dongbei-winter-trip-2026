@@ -731,9 +731,102 @@ const cityPointData = {
     }
   ],
 
-  changbaishan: [],
-  harbin: [],
-  vladivostok: []
+  changbaishan: [
+    {
+      id:"changbaishan-north",
+      name:"长白山北坡",
+      type:"attraction",
+      label:"自然景观",
+      lat:42.038972,
+      lng:128.056106,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Changbaishan%20Tianchi%20view%20south%20from%20northern%20rim.jpg",
+      desc:"长白山北坡是观看天池和高山火山地貌的经典线路，天气允许时可以看到开阔的天池景观。冬季山上风大、温度低，行程以景区交通和短距离观景为主，不勉强长时间停留。"
+    }
+  ],
+  harbin: [
+    {
+      id:"cer-park",
+      name:"中东铁路公园",
+      type:"attraction",
+      label:"铁路 / 公园",
+      lat:45.785000,
+      lng:126.618597,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Chinese%20Eastern%20Railway%20Park%206.jpg",
+      desc:"中东铁路公园保留了哈尔滨铁路历史留下的桥梁、轨道和工业空间，能直观看到这座城市与中东铁路的关系。这里以沿江慢走、看老铁路设施为主，适合放在轻松的一天。"
+    },
+    {
+      id:"central-street",
+      name:"中央大街",
+      type:"attraction",
+      label:"步行街",
+      lat:45.769847,
+      lng:126.613475,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Central%20Street%2027263-Harbin%20%2830838086257%29.jpg",
+      desc:"中央大街是哈尔滨最有代表性的历史街区之一，道路两侧集中了大量欧式建筑和老字号。冬天主要是慢慢看建筑、街景和冰雪氛围，随时可以进店取暖休息。"
+    }
+  ],
+  vladivostok: [
+    {
+      id:"9288-monument",
+      name:"西伯利亚大铁路 9288 km 纪念碑",
+      type:"attraction",
+      label:"铁路地标",
+      lat:43.112328,
+      lng:131.882256,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Vladivostok%20distencemonument.JPG",
+      desc:"这块 9288 km 里程碑位于海参崴火车站一带，标志着西伯利亚大铁路从莫斯科延伸到远东终点。它本身不大，但和火车站、站台一起看，很有跨越欧亚大陆的仪式感。"
+    },
+    {
+      id:"s56",
+      name:"C-56 潜艇",
+      type:"attraction",
+      label:"军事历史",
+      lat:43.113419,
+      lng:131.891222,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/S-56%20from%20sea.jpg",
+      desc:"C-56 是保存于海参崴的苏联二战时期潜艇，如今作为纪念舰和博物馆开放。除了外观，内部还能看到狭窄舱室和潜艇设备，比较直观地感受潜艇生活空间。"
+    },
+    {
+      id:"victory-square",
+      name:"胜利广场",
+      type:"attraction",
+      label:"城市地标",
+      lat:43.115364,
+      lng:131.885387,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Vladivostok%27s%20central%20square%20%2822063111006%29.jpg",
+      desc:"这里是海参崴市中心最重要的开放广场之一，空间开阔，周边就是城市核心街区和海港景观。适合把它作为下午步行线路的一站，简单看看城市中心和纪念性建筑即可。"
+    },
+    {
+      id:"eagles-nest-funicular",
+      name:"鹰巢山缆车",
+      type:"attraction",
+      label:"缆车 / 观景",
+      lat:43.119199,
+      lng:131.908035,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Funicular%20to%20Eagle%27s%20Nest%20Mount.jpg",
+      desc:"鹰巢山缆车把市区低处和山坡快速连起来，是很有海参崴特色的城市交通方式。上到高处后可以俯瞰金角湾、跨海大桥和港口城市地形，适合以观景为主。"
+    },
+    {
+      id:"tokarev-lighthouse",
+      name:"托卡内夫灯塔",
+      type:"attraction",
+      label:"海滨地标",
+      lat:43.078162,
+      lng:131.841298,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Tokarevskiy%20Lighthouse%2C%20Vladivostok%2C%20Primorsky%20Krai%2C%20Russia.jpg",
+      desc:"托卡内夫灯塔位于海边狭长堤岸尽头，是海参崴很有辨识度的海滨地标。冬天海风很强，所以这一站以短时间看海、拍照为主，不安排久走。"
+    },
+    {
+      id:"fokina-street",
+      name:"百年步行街（阿德米拉尔·福金街）",
+      type:"attraction",
+      label:"步行街",
+      lat:43.117617,
+      lng:131.882254,
+      image:"https://commons.wikimedia.org/wiki/Special:FilePath/Vladivostok%20Admirala%20Fokina%20street%20P8060572%202200.jpg",
+      desc:"阿德米拉尔·福金街是海参崴市中心常见的步行休闲街区，两侧有老建筑、咖啡馆和商店。这里适合轻松慢逛，天气冷时也方便随时进室内休息。"
+    }
+  ]
 };
 
 const cityRouteData = {
@@ -781,6 +874,32 @@ const cityRouteData = {
       title:"12/15 行程",
       text:"纯赶路，不安排景点；从沈阳坐高铁前往长白山。",
       pointIds:["shenyang-guesthouse"]
+    }
+  ],
+  changbaishan: [
+    {
+      title:"12/16 浏览线路与安排",
+      text:"长白山北坡游览 → 返回二道白河休息",
+      pointIds:["changbaishan-north"]
+    }
+  ],
+  harbin: [
+    {
+      title:"12/18 浏览线路与安排",
+      text:"中东铁路公园 → 中午回酒店午休 → 中央大街慢逛",
+      pointIds:["cer-park","central-street"]
+    }
+  ],
+  vladivostok: [
+    {
+      title:"12/19 浏览线路与安排",
+      text:"抵达海参崴 → 酒店午休 → 西伯利亚大铁路 9288 km 纪念碑 → C-56 潜艇 → 胜利广场",
+      pointIds:["9288-monument","s56","victory-square"]
+    },
+    {
+      title:"12/20 浏览线路与安排",
+      text:"鹰巢山缆车俯瞰金角湾 → 中午回房间午休 → 托卡内夫灯塔短时间打卡 → 百年步行街慢逛",
+      pointIds:["eagles-nest-funicular","tokarev-lighthouse","fokina-street"]
     }
   ]
 };
